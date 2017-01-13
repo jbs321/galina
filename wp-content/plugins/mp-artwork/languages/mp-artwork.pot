@@ -1,0 +1,936 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-08-19 17:30+0200\n"
+"PO-Revision-Date: 2016-08-19 17:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_n;_x;_n;esc_html;esc_attr_el;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: mp-artwork.php:206
+msgid ""
+"You&#8217;ve installed Artwork theme. Click &#34;Run Theme Wizard&#34; to "
+"view a quick guided tour of theme functionality and complete the "
+"installation."
+msgstr ""
+
+#: mp-artwork.php:210
+msgid "Run Theme Wizard"
+msgstr ""
+
+#: mp-artwork.php:213 classes/wizard/class-theme-install.php:405
+#: classes/wizard/class-theme-install.php:424
+#: classes/wizard/class-theme-install.php:560
+#: classes/wizard/class-theme-install.php:673
+msgid "Skip"
+msgstr ""
+
+#: classes/about/about-page.php:55 classes/customiser/customiser.php:207
+msgid ""
+"<h1>Hello!</h1><p>Artistique is a fine art gallery located in 24 Hillside "
+"Gardens Northwood, Greater London UK. The gallery was established in 1993 "
+"and is dedicated to the exhibition, education and research of contemporary "
+"figurative art. Our aim is to contribute, initiate, develop and inspire "
+"viewers about the visual arts.</p><p>Artistique Artwork Gallery is always "
+"open for submissions from all creative artists. Get your opportunity to "
+"exhibit your works at a prestigious gallery and have them seen by thousands "
+"of visitors who appreciate the art.</p><h5>OPENING HOURS</h5> <p class="
+"\"color-black\">10.30am to 5.30pm, Tuesday to Sunday during exhibitions.<br/"
+">Closed on Mondays (except bank holidays) and during exhibition changeovers."
+"</p><h5>DIRECTIONS</h5><p>via subway take 282/H11 train towards Harrow Bus "
+"Station (Stop D), walk about 2 min, head southeast on Green Ln/A4125, at the "
+"roundabout, take the 2nd exit onto Northwood Way, turn right to stay on "
+"Northwood Way, turn left onto Hillside Rise, Continue onto Hillside Gardens. "
+"Artistique Artwork Gallery will be on the left.</p>"
+msgstr ""
+
+#: classes/customiser/customiser.php:95
+msgid "Site Title Font Family"
+msgstr ""
+
+#: classes/customiser/customiser.php:107
+msgid "Site Title Font Weight"
+msgstr ""
+
+#: classes/customiser/customiser.php:119
+msgid "Site Title Font Size"
+msgstr ""
+
+#: classes/customiser/customiser.php:149
+msgid "Site Font Family"
+msgstr ""
+
+#: classes/customiser/customiser.php:161
+msgid "Site Font Weight"
+msgstr ""
+
+#: classes/customiser/customiser.php:173
+msgid "Site Font Size"
+msgstr ""
+
+#: classes/customiser/customiser.php:201
+msgid "Description"
+msgstr ""
+
+#: classes/customiser/customiser.php:263
+msgid "Ultra Light"
+msgstr ""
+
+#: classes/customiser/customiser.php:264
+msgid "Ultra Light Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:265
+msgid "Light"
+msgstr ""
+
+#: classes/customiser/customiser.php:266
+msgid "Light Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:267
+msgid "Book"
+msgstr ""
+
+#: classes/customiser/customiser.php:268
+msgid "Book Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:269
+msgid "Regular"
+msgstr ""
+
+#: classes/customiser/customiser.php:270
+msgid "Regular Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:271
+msgid "Medium"
+msgstr ""
+
+#: classes/customiser/customiser.php:272
+msgid "Medium Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:273
+msgid "Semi-Bold"
+msgstr ""
+
+#: classes/customiser/customiser.php:274
+msgid "Semi-Bold Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:275
+msgid "Bold"
+msgstr ""
+
+#: classes/customiser/customiser.php:276
+msgid "Bold Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:277
+msgid "Extra Bold"
+msgstr ""
+
+#: classes/customiser/customiser.php:278
+msgid "Extra Bold Italic"
+msgstr ""
+
+#: classes/customiser/customiser.php:279
+msgid "Ultra Bold"
+msgstr ""
+
+#: classes/customiser/customiser.php:280
+msgid "Ultra Bold Italic"
+msgstr ""
+
+#: classes/front/front-page.php:68
+msgid "Woman In Gallery"
+msgstr ""
+
+#: classes/front/front-page.php:72 classes/front/front-page.php:88
+#: classes/front/front-page.php:104 classes/front/front-page.php:120
+#: classes/front/front-page.php:136 classes/front/front-page.php:152
+msgid ""
+"Aenean aliquam volutpat ipsum at cursus. Quisque porttitor lectus ac cursus "
+"imperdiet. Donec tempor ligula vel auctor venenatis. Vestibulum vehicula "
+"auctor dictum."
+msgstr ""
+
+#: classes/front/front-page.php:73 classes/front/front-page.php:89
+#: classes/front/front-page.php:105 classes/front/front-page.php:121
+#: classes/front/front-page.php:137 classes/front/front-page.php:153
+#: templates/content-home-gallery.php:29 templates/content-home-link.php:38
+#: templates/content-home-link.php:42 templates/content-home-video.php:39
+#: templates/content-home.php:32
+msgid "View"
+msgstr ""
+
+#: classes/front/front-page.php:84
+msgid "The Mona Lisa"
+msgstr ""
+
+#: classes/front/front-page.php:100
+msgid "The Louvre Museum"
+msgstr ""
+
+#: classes/front/front-page.php:116 classes/front/front-page.php:132
+#: classes/front/front-page.php:148
+msgid "Lorem ipsum dolor"
+msgstr ""
+
+#: classes/posttype/work.php:21 classes/wizard/class-theme-install.php:74
+msgid "Works"
+msgstr ""
+
+#: classes/posttype/work.php:56 classes/posttype/work.php:71
+msgid "Categories"
+msgstr ""
+
+#: classes/posttype/work.php:57
+msgid "Category"
+msgstr ""
+
+#: classes/posttype/work.php:58
+msgid "Search Categories"
+msgstr ""
+
+#: classes/posttype/work.php:59
+msgid "Popular Categories"
+msgstr ""
+
+#: classes/posttype/work.php:60
+msgid "All Categories"
+msgstr ""
+
+#: classes/posttype/work.php:63
+msgid "Edit Category"
+msgstr ""
+
+#: classes/posttype/work.php:64
+msgid "Update Category"
+msgstr ""
+
+#: classes/posttype/work.php:65
+msgid "Add New Category"
+msgstr ""
+
+#: classes/posttype/work.php:66
+msgid "New Category Name"
+msgstr ""
+
+#: classes/posttype/work.php:67
+msgid "Separate categories with commas"
+msgstr ""
+
+#: classes/posttype/work.php:68
+msgid "Add or remove categories"
+msgstr ""
+
+#: classes/posttype/work.php:69
+msgid "Choose from the most used categories"
+msgstr ""
+
+#: classes/posttype/work.php:70
+msgid "No categories found."
+msgstr ""
+
+#: classes/posttype/work.php:89 classes/posttype/work.php:104
+msgid "Tags"
+msgstr ""
+
+#: classes/posttype/work.php:90
+msgid "Tag"
+msgstr ""
+
+#: classes/posttype/work.php:91
+msgid "Search Tags"
+msgstr ""
+
+#: classes/posttype/work.php:92
+msgid "Popular Tags"
+msgstr ""
+
+#: classes/posttype/work.php:93
+msgid "All Tags"
+msgstr ""
+
+#: classes/posttype/work.php:96
+msgid "Edit Tag"
+msgstr ""
+
+#: classes/posttype/work.php:97
+msgid "Update Tag"
+msgstr ""
+
+#: classes/posttype/work.php:98
+msgid "Add New Tag"
+msgstr ""
+
+#: classes/posttype/work.php:99
+msgid "New Tag Name"
+msgstr ""
+
+#: classes/posttype/work.php:100
+msgid "Separate tags with commas"
+msgstr ""
+
+#: classes/posttype/work.php:101
+msgid "Add or remove tags"
+msgstr ""
+
+#: classes/posttype/work.php:102
+msgid "Choose from the most used tags"
+msgstr ""
+
+#: classes/posttype/work.php:103
+msgid "No tags found."
+msgstr ""
+
+#: classes/posttype/work.php:148
+msgid "Options"
+msgstr ""
+
+#: classes/posttype/work.php:224
+msgid "Text color on the Front Page:"
+msgstr ""
+
+#: classes/posttype/work.php:229
+msgid "Light text"
+msgstr ""
+
+#: classes/posttype/work.php:232
+msgid "Dark text"
+msgstr ""
+
+#: classes/posttype/work.php:239
+msgid "Alternative background color:"
+msgstr ""
+
+#: classes/widget/Items/About.php:12
+msgid "About Us"
+msgstr ""
+
+#: classes/widget/Items/About.php:13
+msgid "About us"
+msgstr ""
+
+#: classes/widget/Items/About.php:114 classes/widget/Items/Contact.php:85
+#: classes/widget/Items/Socials.php:115
+msgid "Title:"
+msgstr ""
+
+#: classes/widget/Items/About.php:120
+msgid "Logo:"
+msgstr ""
+
+#: classes/widget/Items/About.php:130
+msgid "Upload Image"
+msgstr ""
+
+#: classes/widget/Items/About.php:136
+msgid "Show logo"
+msgstr ""
+
+#: classes/widget/Items/About.php:140
+msgid "Show site title"
+msgstr ""
+
+#: classes/widget/Items/About.php:145
+msgid "Show description"
+msgstr ""
+
+#: classes/widget/Items/Contact.php:12
+msgid "Contact Info"
+msgstr ""
+
+#: classes/widget/Items/Contact.php:13
+msgid "Contact"
+msgstr ""
+
+#: classes/widget/Items/Contact.php:90
+msgid "Contact Information:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:12 classes/widget/Items/Socials.php:13
+msgid "Socials"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:39
+msgid "Facebook"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:44
+msgid "Twitter"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:49
+msgid "LinkedIn"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:54
+msgid "Google +"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:59
+msgid "Instagram"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:64
+msgid "Pinterest"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:69
+msgid "Tumblr"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:74
+msgid "Youtube"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:79
+msgid "Rss"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:120
+msgid "Facebook link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:125
+msgid "Twitter link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:130
+msgid "Linkedin link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:135
+msgid "Google+ link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:140
+msgid "Instagram link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:145
+msgid "Pinterest link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:150
+msgid "Tumblr link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:155
+msgid "Youtube link:"
+msgstr ""
+
+#: classes/widget/Items/Socials.php:160
+msgid "Rss link:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:53
+msgid "Theme Wizard"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:90
+msgid ""
+"The \"slug\" is the URL-friendly version of the name. It is usually all "
+"lowercase and contains only letters, numbers, and hyphens."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:107
+msgid "Start"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:112
+msgid "Front Page Setup"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:117
+#: classes/wizard/class-theme-install.php:264
+msgid "Customizer"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:122
+#: classes/wizard/class-theme-install.php:509
+msgid "Works Archive"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:127
+msgid "Plugins"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:132
+msgid "Install Plugins"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:137
+msgid "Sample Content"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:142
+msgid "Pages"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:147
+msgid "Install Pages"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:152
+msgid "Post Type"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:157
+msgid "Ready"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:230
+msgid "Welcome to the Artwork Theme!"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:235
+msgid ""
+"Thank you for choosing Artwork theme. This Quick Guided Tour will show you "
+"how to:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:237
+msgid "Customize this theme in a few steps"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:238
+msgid "Change colors, texts and images"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:239
+#: classes/wizard/class-theme-install.php:850
+msgid "Import sample content"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:240
+msgid "Install plugins"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:242
+msgid "If you don&rsquo;t want to go through the wizard, you can"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:243
+msgid "skip and return to the WordPress dashboard."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:244
+msgid "This Wizard is always available under Appearance > Theme Wizard menu."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:251
+msgid "Let's Go!"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:262
+#: classes/wizard/class-theme-install.php:303
+#: classes/wizard/class-theme-install.php:317
+#: classes/wizard/class-theme-install.php:389
+#: classes/wizard/class-theme-install.php:465
+#: classes/wizard/class-theme-install.php:484
+#: classes/wizard/class-theme-install.php:504
+#: classes/wizard/class-theme-install.php:506
+#: classes/wizard/class-theme-install.php:537
+#: classes/wizard/class-theme-install.php:539
+#: classes/wizard/class-theme-install.php:720
+#: classes/wizard/class-theme-install.php:828
+#: classes/wizard/class-theme-install.php:843
+#: classes/wizard/class-theme-install.php:869
+#: classes/wizard/class-theme-install.php:880
+#: classes/wizard/class-theme-install.php:908
+msgid "Continue"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:269
+msgid ""
+"One of the main tools of this theme is the WordPress Customizer. Navigate to "
+"Appearance > Customize to change logo, website title, contact information, "
+"colors, menu items and so on. Once you are happy with your changes, click "
+"Save&Publish to reflect them on your live site."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:274
+msgid "1. Site Identity"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:282
+msgid ""
+"The Site Identity section in customizer allows you to change the site title, "
+"description, and control whether or not you want to display them in the "
+"header."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:287
+msgid "2. Theme Colors"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:295
+msgid ""
+"The Colors section in customizer allows you to choose predefined colors or "
+"select your own colors."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:306
+#: classes/wizard/class-theme-install.php:392
+#: classes/wizard/class-theme-install.php:430
+#: classes/wizard/class-theme-install.php:488
+#: classes/wizard/class-theme-install.php:543
+#: classes/wizard/class-theme-install.php:677
+#: classes/wizard/class-theme-install.php:832
+#: classes/wizard/class-theme-install.php:872
+#: classes/wizard/class-theme-install.php:911
+msgid "Exit"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:320
+msgid " Front Page Setup"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:325
+msgid ""
+"Front Page is the main page of your website that may display posts from "
+"Dashboard > Works menu. This theme created to showcase diverse artworks of "
+"artists and photographers. It can be easily adapted for needs of both art "
+"experts and fans in building online art studios and portfolios. How to setup "
+"your Front Page:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:330
+msgid "1. Create Front Page"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:339
+#: classes/wizard/class-theme-install.php:519
+msgid "1. Follow this link to "
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:339
+#: classes/wizard/class-theme-install.php:519
+msgid "Create New Page"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:340
+msgid "2. Name it \"Home\" or \"Front Page\""
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:341
+msgid "3. Choose \"Front Page\" template"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:342
+#: classes/wizard/class-theme-install.php:522
+msgid "4. Press Publish button"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:344
+#: classes/wizard/class-theme-install.php:364
+msgid "For more information, please view"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:344
+#: classes/wizard/class-theme-install.php:364
+msgid "documentation"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:349
+msgid "2. Setup Front Page"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:359
+msgid "1. Navigate to "
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:359
+msgid "Settings -> Reading"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:360
+msgid ""
+"2. In Settings -> Reading, set \"Front page displays\" to \"A static page\""
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:361
+msgid ""
+"2. In Settings -> Reading, set \"Front page\" to \"Home\" or \"Front Page\" "
+"you've created in first step"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:362
+#: classes/wizard/class-theme-install.php:380
+msgid "3. Scroll down and Save changes"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:369
+msgid "3. Setup Posts Page (Blog)"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:378
+msgid "1. Create new page and name it \"Blog\""
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:379
+msgid "2. In Settings -> Reading, set \"Posts page\" to \"Blog\""
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:407
+msgid "This theme recommends to create the following pages:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:413
+msgid "About page for Artwork theme"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:414
+msgid "Adds About page to this theme."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:418
+msgid "You have installed all recommended pages"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:426
+msgid "Create"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:467
+msgid "Installing the pages"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:473
+msgid "About page"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:517
+msgid "How to showcase your works in two columns:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:520
+msgid "2. Name it \"Works\""
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:521
+msgid "3. Choose \"Works Archive\" page template"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:523
+msgid "5. Add page to main menu"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:563
+msgid "This theme recommends the following free plugins:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:571
+#: classes/wizard/class-theme-install.php:579
+#: classes/wizard/class-theme-install.php:736
+#: classes/wizard/class-theme-install.php:742
+msgid "Artwork Theme Engine"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:572
+msgid "Adds Works post type, theme wizard and page templates to this theme."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:580
+#: classes/wizard/class-theme-install.php:600
+#: classes/wizard/class-theme-install.php:620
+#: classes/wizard/class-theme-install.php:642
+#: classes/wizard/class-theme-install.php:663
+msgid "Activate this plugin."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:591
+#: classes/wizard/class-theme-install.php:599
+#: classes/wizard/class-theme-install.php:755
+#: classes/wizard/class-theme-install.php:761
+msgid "MotoPress Content Editor Lite"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:592
+#: classes/wizard/class-theme-install.php:612
+msgid ""
+"Enhances the standard WordPress editor and enables to build websites "
+"visually. It's complete solution for building responsive pages without "
+"coding and simply by dragging and dropping content elements."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:611
+#: classes/wizard/class-theme-install.php:619
+#: classes/wizard/class-theme-install.php:774
+#: classes/wizard/class-theme-install.php:780
+msgid "MotoPress Content Editor"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:633
+#: classes/wizard/class-theme-install.php:641
+#: classes/wizard/class-theme-install.php:793
+#: classes/wizard/class-theme-install.php:799
+msgid "WordPress Importer"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:634
+msgid ""
+"Import posts, pages, comments, custom fields, categories, tags and more from "
+"a WordPress export file."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:653
+#: classes/wizard/class-theme-install.php:662
+#: classes/wizard/class-theme-install.php:811
+#: classes/wizard/class-theme-install.php:817
+msgid "Regenerate Thumbnails"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:654
+msgid ""
+"Allows you to regenerate the thumbnails for your images if you've changed a "
+"theme. Available under Dashboard - Tools - Regenerate Thumbnails menu."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:722
+msgid "Installing the plugins (this may take awhile)"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:729
+msgid "<h4>Works for Artwork theme</h4>"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:737
+#: classes/wizard/class-theme-install.php:743
+#: classes/wizard/class-theme-install.php:756
+#: classes/wizard/class-theme-install.php:762
+#: classes/wizard/class-theme-install.php:775
+#: classes/wizard/class-theme-install.php:781
+#: classes/wizard/class-theme-install.php:794
+#: classes/wizard/class-theme-install.php:800
+#: classes/wizard/class-theme-install.php:812
+#: classes/wizard/class-theme-install.php:818
+#, php-format
+msgid "Activating %s plugin..."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:748
+msgid "<h4>MotoPress Content Editor Lite</h4>"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:767
+msgid "<h4>MotoPress Content Editor</h4>"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:786
+msgid "<h4>WordPress Importer</h4>"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:804
+msgid "<h4>Regenerate Thumbnails</h4>"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:845
+msgid "Sample content"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:851
+#: classes/wizard/class-theme-install.php:858
+msgid ""
+"You can import sample content to make your site look similar to the demo. "
+"This is optional but provides a good starting point. Demo examples of the "
+"posts, works, and settings will be imported to your new website."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:852
+msgid "Loading. Wait few minutes..."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:853
+msgid "Import Sample Content"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:859
+msgid ""
+"To import test content you need activate \"WordPress Importer\" and "
+"\"Artwork Theme Engine\" plugins."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:861
+msgid "Activate plugins"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:882
+msgid "Post type"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:887
+msgid ""
+"Give your projects more suitable titles by renaming default &rdquo;"
+"Works&rdquo; (e.g. Portfolio, Photos). Please keep in mind that this change "
+"can be applied only once during the theme installation. If your &rdquo;"
+"Works&rdquo; are renamed for already existing posts, there is a risk to lose "
+"these posts&rsquo; data."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:888
+msgid "You can change post type name:"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:895
+msgid "Select menu"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:900
+msgid "Appearance > menus"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:921
+msgid "You are Ready!"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:922
+msgid "Thank you for choosing Proift theme."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:925
+msgid "Customize this theme"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:926
+msgid "Return to the WordPress Dashboard"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:978
+msgid "Theme Quick Guided Tour"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:1008
+msgid "plugin is not activated"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:1010
+msgid "plugin is activated"
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:1016
+msgid "Creating About page..."
+msgstr ""
+
+#: classes/wizard/class-theme-install.php:1039
+msgid "About page is created"
+msgstr ""
+
+#: classes/wizard/theme-importer-dummy-data.php:37
+msgid ""
+"Wordpress upload dir permission denied. Please temporally set permissions "
+"\"777\" for \"wp-content/upload/\"."
+msgstr ""
