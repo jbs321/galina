@@ -191,7 +191,7 @@ class MPCEObject extends MPCEElement {
 
         if (!empty($parameter)) {
             foreach ($parameter as $key => $value) {
-                if (!array_key_exists($key, $this->parameters) && !array_key_exists($key, MPCEShortcode::$styles)) {
+                if (!array_key_exists($key, $this->parameters) && !array_key_exists($key, MPCEShortcodeAtts::getStyle())) {
                     $this->parameters[$key] = $value;
                 }
             }

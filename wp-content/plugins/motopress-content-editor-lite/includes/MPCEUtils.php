@@ -66,7 +66,7 @@ class MPCEUtils {
 	/**
 	 * 
 	 * @param string[] $attrs Where keys are attribute names
-	 * @param bol $withLeadingWhitespace  Whether to output string of attributes with leading whitespace. Optional.
+	 * @param bool $withLeadingWhitespace Whether to output string of attributes with leading whitespace. Optional.
 	 * @return string Whitespace-separated string of escaped attributes.
 	 */
 	static function generateAttrsString($attrs, $withLeadingWhitespace = false) {

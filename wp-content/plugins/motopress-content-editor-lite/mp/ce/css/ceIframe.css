@@ -12,9 +12,6 @@ body {
 body {
   overflow-y: hidden !important;
 }
-body.mpce-body-padding {
-  padding-left: 56px !important;
-}
 body:not(.motopress-device-preview-action).motopress-container-hover-action .motopress-overflow-visible,
 body:not(.motopress-device-preview-action).motopress-resize-action .motopress-overflow-visible,
 body:not(.motopress-device-preview-action).motopress-split-action .motopress-overflow-visible,
@@ -74,7 +71,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 }
 #motopress-empty-scene-helper .motopress-empty-scene-image {
   display: inline-block !important;
-  background-image: url('../../../images/ce/emptySceneHelper.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/emptySceneHelper.png?ver=2.2.0') !important;
   width: 123px !important;
   height: 123px !important;
   margin: 0 32px 0 0 !important;
@@ -339,7 +336,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   -moz-box-sizing: border-box !important;
   -webkit-box-sizing: border-box !important;
 }
-.motopress-drag-handle:hover {
+.motopress-drag-handle:not(.motopress-selected):hover {
   outline: #a8a8a8 dashed 1px !important;
 }
 .motopress-drag-handle:focus {
@@ -371,7 +368,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   display: block !important;
   width: 100%;
   height: 100%;
-  outline: #898989 solid 1px !important;
+  outline: #898989 dashed 1px !important;
   cursor: move !important;
 }
 .motopress-handle-top-in,
@@ -617,7 +614,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   height: 23px !important;
   margin-left: -2px !important;
   z-index: 100001 !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat !important;
 }
 .motopress-edit-more-action .mpce-wp-more-tag:hover,
 .motopress-edit-more-action .mpce-wp-more-point:hover {
@@ -658,6 +655,23 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 }
 .motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-tag {
   display: block !important;
+}
+.motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-tag:before,
+.motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-tag:after {
+  border-top: 2px dashed cyan;
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 11px;
+  position: absolute;
+}
+.motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-tag:before {
+  left: -9999px;
+  right: 50px;
+}
+.motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-tag:after {
+  left: 50px;
+  right: -9999px;
 }
 .motopress-edit-more-action.motopress-wp-more-selected-state .mpce-wp-more-point,
 .motopress-edit-more-action.motopress-wp-more-selected-state .motopress-handle-middle-in .mpce-wp-more-point {
@@ -779,7 +793,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-clmn > .ui-resizable-handle.ui-resizable-sw {
   display: none;
   background-repeat: no-repeat;
-  background-image: url('../../../images/ce/resizer-handle.png?ver=2.1.1');
+  background-image: url('../../../images/ce/resizer-handle.png?ver=2.2.0');
   min-width: 7px;
   min-height: 7px;
 }
@@ -788,7 +802,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-clmn > .ui-resizable-handle.ui-resizable-s:hover,
 .motopress-clmn > .ui-resizable-handle.ui-resizable-se:hover,
 .motopress-clmn > .ui-resizable-handle.ui-resizable-sw:hover {
-  background-image: url('../../../images/ce/resizer-handle-over.png?ver=2.1.1');
+  background-image: url('../../../images/ce/resizer-handle-over.png?ver=2.2.0');
 }
 .motopress-clmn > .ui-resizable-handle.ui-resizable-e,
 .motopress-clmn > .ui-resizable-handle.ui-resizable-w {
@@ -911,7 +925,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   left: 0 !important;
   padding-top: 0px !important;
   display: block !important;
-  background-image: url('../../../images/ce/leftbar.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/leftbar.png?ver=2.2.0') !important;
   background-repeat: repeat-y !important;
   z-index: 10010 !important;
 }
@@ -936,11 +950,11 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 }
 #motopress-content-editor-leftbar #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-more-icon,
 #motopress-content-editor-leftbar:hover #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-more-icon {
-  background-image: url('../../../images/ce/more-btn.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/more-btn.png?ver=2.2.0') !important;
 }
 #motopress-content-editor-leftbar #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-addons-icon,
 #motopress-content-editor-leftbar:hover #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-addons-icon {
-  background-image: url('../../../images/ce/addons-btn.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/addons-btn.png?ver=2.2.0') !important;
 }
 #motopress-content-editor-leftbar #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-addons-icon a:hover,
 #motopress-content-editor-leftbar:hover #mpce-leftbar-custom-wrapper .mpce-leftbar-custom-group-1 .mpce-leftbar-addons-icon a:hover {
@@ -1124,10 +1138,23 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   height: 31px !important;
   top: 9px !important;
   left: -15px !important;
-  background-image: url('../../../images/ce/arrow.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/arrow.png?ver=2.2.0') !important;
 }
 #motopress-content-editor-leftbar.mpce-leftbar-hidden,
 #motopress-content-editor-leftbar:hover.mpce-leftbar-hidden {
+  left: -56px !important;
+}
+.motopress-leftbar-overlap {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  padding-top: 0px !important;
+  width: 56px !important;
+  height: 100% !important;
+  z-index: 10011 !important;
+  display: none;
+}
+.motopress-leftbar-overlap.mpce-leftbar-overlap-hidden {
   left: -56px !important;
 }
 .motopress-ce-object {
@@ -1157,7 +1184,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-ce-object .motopress-ce-object-dot,
 .motopress-ce-object .motopress-ce-object-dot:hover {
   float: left !important;
-  background: url('../../../images/ce/popover-dot.png?ver=2.1.1') center no-repeat !important;
+  background: url('../../../images/ce/popover-dot.png?ver=2.2.0') center no-repeat !important;
   width: 5px !important;
   height: 6px !important;
   margin-top: 10px  !important;
@@ -1188,16 +1215,6 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   white-space: nowrap !important;
   cursor: move !important;
   text-overflow: ellipsis !important;
-}
-.motopress-leftbar-overlap {
-  position: fixed !important;
-  left: 0 !important;
-  top: 0 !important;
-  padding-top: 0px !important;
-  width: 56px !important;
-  height: 100% !important;
-  z-index: 1011 !important;
-  display: none;
 }
 .motopress-dialog.ui-dialog {
   position: fixed !important;
@@ -1234,7 +1251,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   clear: both !important;
 }
 .motopress-dialog.ui-dialog .ui-widget-header {
-  background: #e9e9e9 url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat 0 0 !important;
+  background: #e9e9e9 url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat 0 0 !important;
   border: none !important;
   color: #838383 !important;
   font-family: 'Arial' !important;
@@ -1275,7 +1292,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   margin: -9px 0 0 0 !important;
   padding: 1px !important;
   border: none !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat !important;
   border-radius: 1px !important;
   -moz-border-radius: 1px !important;
   -webkit-border-radius: 1px !important;
@@ -1424,7 +1441,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 }
 .motopress-dialog.ui-dialog .ui-dialog-content #motopress-dialog-tabs.ui-tabs .ui-tabs-nav li a .motopress-settings-icon,
 .motopress-dialog.ui-dialog .ui-dialog-content #motopress-dialog-tabs.ui-tabs .ui-tabs-nav li a .motopress-style-icon {
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat !important;
   float: left !important;
   width: 16px !important;
   height: 16px !important;
@@ -1492,7 +1509,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   transition: none !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content #motopress-style-editor-container .motopress-style-editor-forms .motopress-ce-style-editor-states-wrapper a[data-state] {
-  background-image: url('../../../images/ce/dialogIcon.png?ver=2.1.1') !important;
+  background-image: url('../../../images/ce/dialogIcon.png?ver=2.2.0') !important;
   background-repeat: no-repeat !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content #motopress-style-editor-container .motopress-style-editor-forms .motopress-ce-style-editor-states-wrapper a[data-state="up"] {
@@ -1644,7 +1661,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   -moz-box-sizing: content-box !important;
   -webkit-box-sizing: content-box !important;
   box-sizing: content-box !important;
-  background: #f0f0f0 url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat !important;
+  background: #f0f0f0 url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat !important;
   border: 1px solid #dbdbdb !important;
   border-radius: 0 !important;
   width: 22px !important;
@@ -1777,7 +1794,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   left: 0 !important;
   width: 19px !important;
   height: 19px !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat 0 -174px !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat 0 -174px !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-legend,
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-description {
@@ -1838,7 +1855,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-video-url.motopress-property-checkbox-input:checked + label:before,
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-spinner.motopress-property-checkbox-input:checked + label:before,
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-media.motopress-property-checkbox-input:checked + label:before {
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -19px -174px !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat -19px -174px !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-image {
   display: inline-block !important;
@@ -2024,10 +2041,10 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   height: 28px !important;
   border-left: 1px solid #cecece !important;
   box-shadow: -1px 0 0 0 #efefef !important;
-  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -1px -117px !important;
+  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat -1px -117px !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-group .ui-accordion .ui-accordion-header .motopress-property-group-accordion-item-remove:hover {
-  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -28px -117px !important;
+  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat -28px -117px !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-group .ui-accordion .ui-accordion-icons {
   padding-left: 20px !important;
@@ -2039,7 +2056,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   padding-left: 0 !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-group .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
-  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -5px -6px !important;
+  background: transparent url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat -5px -6px !important;
   width: 6px !important;
   height: 15px !important;
   position: absolute !important;
@@ -2406,12 +2423,12 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-margin tr:hover .motopress-margin-icon {
   border-color: #d7d7d7;
   background: #f8f8f8;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -moz-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #f8f8f8)) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -o-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -ms-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, linear-gradient(to bottom, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -moz-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #f8f8f8)) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -o-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -ms-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, linear-gradient(to bottom, #fff 0%, #f8f8f8 100%) !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-margin tr:hover .motopress-margin-icon-top {
   background-position: 0 -98px !important;
@@ -2476,12 +2493,12 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   -webkit-box-shadow: inset 0 0 0 1px #fff !important;
   box-shadow: inset 0 0 0 1px #fff !important;
   background: #f7f7f7 !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -moz-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #f7f7f7)) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -o-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -ms-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, linear-gradient(to bottom, #fafafa 0%, #f7f7f7 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -moz-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #f7f7f7)) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -o-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -ms-linear-gradient(top, #fafafa 0%, #f7f7f7 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, linear-gradient(to bottom, #fafafa 0%, #f7f7f7 100%) !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-margin .motopress-margin-icon-top {
   background-position: 0 -71px !important;
@@ -2498,12 +2515,12 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-margin .motopress-margin-icon[data-motopress-margin-active] {
   border-color: #d7d7d7;
   background: #f8f8f8;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -moz-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #f8f8f8)) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -o-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, -ms-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat, linear-gradient(to bottom, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -moz-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(100%, #f8f8f8)) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -webkit-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -o-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, -ms-linear-gradient(top, #fff 0%, #f8f8f8 100%) !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat, linear-gradient(to bottom, #fff 0%, #f8f8f8 100%) !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-margin .motopress-margin-icon[data-motopress-margin-active].motopress-margin-icon-top {
   background-position: 0 -98px !important;
@@ -2682,7 +2699,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
   margin-left: 5px !important;
 }
 .motopress-dialog.ui-dialog .ui-resizable-se {
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat 0 -60px !important;
+  background: url('../../../images/ce/dialogIcon.png?ver=2.2.0') no-repeat 0 -60px !important;
   width: 11px !important;
   height: 11px !important;
   right: 3px !important;
@@ -2696,7 +2713,7 @@ body:not(.motopress-device-preview-action).motopress-select-action #motopress-co
 }
 .motopress-small-preload {
   background-color: #fff;
-  background-image: url("../../../images/ce/loading.gif?ver=2.1.1");
+  background-image: url("../../../images/ce/loading.gif?ver=2.2.0");
   background-repeat: no-repeat;
   background-position: 50% 50%;
 }
@@ -3495,7 +3512,7 @@ div.motopress-bootstrap-dropdown.motopress-dropdown-button .dropdown-menu li.dis
   min-height: inherit;
 }
 .motopress-space {
-  background: url('../../../images/ce/space.png?ver=2.1.1') center repeat !important;
+  background: url('../../../images/ce/space.png?ver=2.2.0') center repeat !important;
 }
 .motopress-space.motopress-space-light,
 .motopress-space.motopress-space-normal,
@@ -3509,7 +3526,7 @@ div.motopress-bootstrap-dropdown.motopress-dropdown-button .dropdown-menu li.dis
 }
 .motopress-popup-obj {
   min-height: 30px;
-  background: url('../../../images/ce/popup-trigger.png?ver=2.1.1') center no-repeat !important;
+  background: url('../../../images/ce/popup-trigger.png?ver=2.2.0') center no-repeat !important;
 }
 .mce-btn button {
   text-transform: none;
@@ -3561,23 +3578,36 @@ div.motopress-bootstrap-dropdown.motopress-dropdown-button .dropdown-menu li.dis
   width: 15px;
   height: 15px;
   cursor: pointer;
+  background-color: #4787ed;
+  opacity: 0.85;
+  box-shadow: 0 0 1px #000a70 inset;
+  border-radius: 50%;
+}
+.motopress-row-select-handle:before,
+.motopress-clmn-select-handle:before {
+  background-color: #fff;
+  border-radius: 50%;
+  content: "";
+  height: 5px;
+  left: 5px;
+  position: absolute;
+  top: 5px;
+  width: 5px;
+}
+.motopress-row-select-handle:hover,
+.motopress-clmn-select-handle:hover {
+  opacity: 1;
 }
 .motopress-row-select-handle {
   top: 0;
   left: 0;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat 0px -155px !important;
-}
-.motopress-row-edge:hover > .motopress-row-helper > .motopress-row-select-handle:hover {
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -30px -155px !important;
+  margin: -7px 0 0 -5px;
 }
 .motopress-clmn-select-handle {
-  margin: 0;
+  margin: -7px 0 0 -7px;
   top: 0;
   left: 50%;
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -15px -155px !important;
-}
-.motopress-clmn:hover > .motopress-helper > .motopress-clmn-select-handle:hover {
-  background: url('../../../images/ce/dialogIcon.png?ver=2.1.1') no-repeat -45px -155px !important;
+  background-color: #1b9e7e;
 }
 .motopress-content-wrapper > .motopress-row .motopress-row:first-of-type .motopress-row-select-handle {
   top: 17px;
@@ -3591,6 +3621,16 @@ div.motopress-bootstrap-dropdown.motopress-dropdown-button .dropdown-menu li.dis
 }
 .motopress-row:hover .motopress-row:not(:hover) .motopress-row-helper > .motopress-row-select-handle {
   display: none;
+}
+.motopress-clmn.motopress-selected::before,
+.motopress-clmn.motopress-selected:hover::before {
+  outline-color: #1b9e7e !important;
+  outline-width: 2px !important;
+}
+.motopress-row.motopress-selected::before,
+.motopress-row.motopress-selected:hover::before {
+  outline-color: #4787ed !important;
+  outline-width: 2px !important;
 }
 .motopress-dialog.ui-dialog .ui-dialog-content .motopress-property-input.select2-container {
   padding: 0 !important;
@@ -3653,7 +3693,7 @@ div.motopress-bootstrap-dropdown.motopress-dropdown-button .dropdown-menu li.dis
   height: 25px;
   background-repeat: no-repeat;
   background-position: -86px -131px;
-  background-image: url('../../../images/ce/dialogIcon.png?ver=2.1.1');
+  background-image: url('../../../images/ce/dialogIcon.png?ver=2.2.0');
   vertical-align: middle;
 }
 div.motopress-select2-dropdown#select2-drop {

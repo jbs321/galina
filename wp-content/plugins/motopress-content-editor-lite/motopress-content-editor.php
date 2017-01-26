@@ -3,7 +3,7 @@
 Plugin Name: MotoPress Content Editor Lite
 Plugin URI: http://www.getmotopress.com/plugins/content-editor/
 Description: Drag and drop frontend page builder for any theme.
-Version: 2.1.1
+Version: 2.2.0
 Author: MotoPress
 Author URI: http://www.getmotopress.com/
 License: GPLv2 or later
@@ -27,6 +27,10 @@ require_once $motopress_plugin_dir_path . 'includes/settings.php';
 require_once $motopress_plugin_dir_path . 'includes/compatibility.php';
 require_once $motopress_plugin_dir_path . 'includes/functions.php';
 require_once $motopress_plugin_dir_path . 'includes/MPCEUtils.php';
+require_once $motopress_plugin_dir_path . 'includes/ce/MPCECustomStyleManager.php';
+require_once $motopress_plugin_dir_path . 'includes/ce/shortcodes/post_grid/MPCEShortcodePostsGrid.php';
+require_once $motopress_plugin_dir_path . 'includes/ce/shortcode/ShortcodeCommon.php';
+require_once $motopress_plugin_dir_path . 'includes/ce/MPCEContentManager.php';
 
 add_action('wp_head', 'motopressCEWpHead', 7);
 //add_action('wp_enqueue_scripts', 'motopressCEWpHead');
@@ -42,226 +46,6 @@ function motopressCECustomCSS(){
     }
 }
 // Custom CSS END
-add_action('wp', 'motopressCEEditorHooks');
-function motopressCEEditorHooks() {
-	if (isset($_GET['motopress-ce']) && $_GET['motopress-ce'] == 1) {
-		global $post;
-		$adminurl = strtolower(admin_url());
-		$referer = strtolower(wp_get_referer());
-
-		if (
-			strpos($referer, $adminurl) === 0 && // Is admin-screen referer
-			isset($_REQUEST['_wpnonce']) && // Nonce exists
-			wp_verify_nonce($_REQUEST['_wpnonce'], 'mpce-edit-post_' . $post->ID) !== false // Nonce valid
-		) {
-			global $motopressCESettings;
-			require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Access.php';
-			$ceAccess = new MPCEAccess();
-			$postType = get_post_type();
-			$postTypes = get_option('motopress-ce-options', array('post', 'page'));
-			global $post;
-			$hasAccess = in_array($postType, $postTypes) && post_type_supports($postType, 'editor') && $ceAccess->hasAccess($post->ID);
-
-			if ($hasAccess) {
-				define('MPCE_RUNNING', true);
-
-				add_filter('show_admin_bar', '__return_false');
-
-				add_action('the_post', 'motopressCERenderEditableContent', 9999);
-				add_action('wp_footer', 'motopressCEPrintPostShortcodes');
-
-				add_filter('the_title', 'motopressCETheTitle', 1, 2);
-				add_filter('get_post_metadata', 'motopressCEReplacePageTemplate', 10, 3);
-
-				/* Fix empty post_content */
-
-				/*
-				// Fix Cherry empty post_content
-				global $mpceIsCherryContentEmpty;
-				$mpceIsCherryContentEmpty = false;
-				add_action('cherry_entry_before', 'motopressCECherryEntryBefore');
-				add_action('cherry_entry_after', 'motopressCECherryEntryAfter');
-				*/
-
-				// `suppress_filters` ?
-
-				// General fix
-				add_filter('the_posts', 'motopressCEGeneralEmptyContentFix');
-				// add_filter('the_posts', 'motopressCEGeneralEmptyContentFix', 999, 1);
-
-				// Cherry 4 fix
-				add_filter('cherry_content_template_hierarchy', 'motopressCECherry4EmptyContentFix');
-
-				/* END Fix empty post_content */
-
-			} else {
-				define('MPCE_RUNNING_ERROR', 'access');
-			}
-
-		} else {
-			define('MPCE_RUNNING_ERROR', 'nonce');
-		}
-
-		add_action('wp_head', 'motopressCEEditorIFrameReady', 9999);
-	}
-}
-
-function motopressCEGeneralEmptyContentFix($posts) {
-	$editPostId = motopressCEGetEditingPostId();
-	if ($editPostId) {
-		foreach ($posts as &$post) {
-			if (motopressCEFixEmptyContent($post, $editPostId)) {
-				break;
-			}
-		}
-	}
-
-	return $posts;
-}
-
-function motopressCECherry4EmptyContentFix($templates) {
-	$editPostId = motopressCEGetEditingPostId();
-	if ($editPostId) {
-		global $post;
-		motopressCEFixEmptyContent($post, $editPostId);
-	}
-
-	return $templates;
-}
-
-
-function motopressCEGetEditingPostId() {
-	return isset($_REQUEST['mpce-post-id']) ? $_REQUEST['mpce-post-id'] : false;
-}
-
-function motopressCEFixEmptyContent(&$post, $editPostId) {
-	if ($post->ID == $editPostId) {
-		if (!$post->post_content) {
-			$post->post_content = 'mpce-empty-content';
-		}
-		return true;
-	}
-	return false;
-}
-
-/*
-function motopressCECherryEntryBefore() {
-	global $post, $mpceIsCherryContentEmpty;
-	$mpceIsCherryContentEmpty = false;
-	if ($post && !$post->post_content) {
-		$mpceIsCherryContentEmpty = true;
-		$post->post_content = 'mpce-empty-cherry-content';
-	}
-}
-function motopressCECherryEntryAfter() {
-	global $post, $mpceIsCherryContentEmpty;
-	if ($post && $mpceIsCherryContentEmpty) {
-		$post->post_content = '';
-	}
-}
-*/
-
-// TODO: Maybe use transient for mpce_editable_content
-function motopressCERedirectPostLocation($location) {
-	if (isset($_POST['mpce_auto_draft_redirect'])) {
-		$location = $_POST['mpce_auto_draft_redirect'];
-		$editPostId = isset($_REQUEST['mpce-post-id']) ? $_REQUEST['mpce-post-id'] : false;
-		if ($editPostId) {
-			$title = isset($_POST['mpce_title']) ? $_POST['mpce_title'] : false;
-			$pageTemplate = isset($_POST['mpce_page_template']) ? $_POST['mpce_page_template'] : false;
-			$editableContent = isset($_POST['mpce_editable_content']) ? $_POST['mpce_editable_content'] : false;
-
-			if ($title !== false) update_post_meta($editPostId, '_mpce_title', $title);
-			if ($pageTemplate !== false) update_post_meta($editPostId, '_mpce_page_template', $pageTemplate);
-			if ($editableContent !== false) update_post_meta($editPostId, '_mpce_editable_content', $editableContent);
-		}
-	}
-	return $location;
-}
-add_filter('redirect_post_location', 'motopressCERedirectPostLocation');
-
-function motopressCEReplacePageTemplate($value, $postId, $metaKey) {
-	if ($metaKey === '_wp_page_template') {
-		$editPostId = isset($_REQUEST['mpce-post-id']) ? $_REQUEST['mpce-post-id'] : false;
-		if ($editPostId && $postId == $editPostId) {
-			$template = isset($_POST['mpce_page_template']) ? $_POST['mpce_page_template'] : get_post_meta($postId, '_mpce_page_template', true);
-			if ($template) $value = $template;
-		}
-	}
-	return $value;
-}
-
-
-function motopressCEEditorIFrameReady() {
-	if (wp_script_is('jquery', 'done')) {
-		/**
-		 * MPCESceneDocReady - Editor iframe ready
-		 * MPCESceneDocError :
-		 * - nonce - Nonce invalid
-		 * - access - No permission to edit
-		 */
-		$errorType = '';
-		if (defined('MPCE_RUNNING') && MPCE_RUNNING) {
-			$action = 'MPCESceneDocReady';
-		} else {
-			$action = 'MPCESceneDocError';
-			$errorType = defined('MPCE_RUNNING_ERROR') ? MPCE_RUNNING_ERROR : 'access';
-		}
-		?>
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				parent.jQuery('#motopress-content-editor-scene').trigger('<?php echo $action; ?>', '<?php echo $errorType; ?>');
-			});
-		</script>
-	<?php }
-}
-
-function motopressCEEditableContentMarker($content) {
-	do_shortcode($content); // Needed to enqueue js/css
-	return '<span id="mpce-editable-content-marker" style="display:none !important;"></span>';
-}
-
-function motopressCEPrintPostShortcodes() {
-	echo isset($GLOBALS['mpce_editable_content']) ? $GLOBALS['mpce_editable_content'] : '';
-}
-
-function motopressCERenderEditableContent($post) {
-	$editPostId = isset($_REQUEST['mpce-post-id']) ? $_REQUEST['mpce-post-id'] : false;
-	if ($editPostId && $post->ID == $editPostId && !defined('MPCE_RENDERING_EDITABLE_CONTENT')) {
-		define('MPCE_RENDERING_EDITABLE_CONTENT', true);
-
-		global $motopressCESettings, $motopressCEWPAttachmentDetails;
-		require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/renderContent.php';
-
-		$content = isset($_POST['mpce_editable_content']) ? $_POST['mpce_editable_content'] : get_post_meta($post->ID, '_mpce_editable_content', true);
-		$content = motopressCERenderContent($content);
-
-		$attachmentDetailsJSON = function_exists('wp_json_encode') ? wp_json_encode($motopressCEWPAttachmentDetails) : json_encode($motopressCEWPAttachmentDetails);
-
-		$script =
-			'<p class="motopress-hide-script"><script type="text/javascript">' .
-				'window.mpce_wp_attachment_details = ' . $attachmentDetailsJSON . ';' .
-			'</script></p>';
-
-		$GLOBALS['mpce_editable_content'] =
-			'<script type="template/html" id="mpce-post-content-template" style="display:none">' .
-				rawurlencode($script . apply_filters('the_content', $content)) .
-			'</script>';
-
-		remove_all_filters('the_content');
-		add_filter('the_content', 'motopressCEEditableContentMarker');
-	}
-}
-
-function motopressCETheTitle($title, $postId) {
-	$editPostId = isset($_REQUEST['mpce-post-id']) ? $_REQUEST['mpce-post-id'] : $postId;
-	if ($postId == $editPostId) {
-		$title = isset($_POST['mpce_title']) ? $_POST['mpce_title'] : get_post_meta($postId, '_mpce_title', true);
-		$title = stripslashes(trim($title));
-		$title = '&zwnj;' . $title . '&zwnj;';
-	}
-	return  $title;
-}
 
 function motopressCEGetWPScriptVer($script) {
     global $wp_version;
@@ -297,7 +81,6 @@ function motopressCEGetWPScriptVer($script) {
 }
 
 function motopressCEWpHead() {
-//    global $post;
     global $motopressCESettings;
 
 	$suffix = $motopressCESettings['script_suffix'];
@@ -392,7 +175,7 @@ function motopressCEWpHead() {
     wp_enqueue_style('mpce-bootstrap-grid');
     wp_enqueue_style('mpce-font-awesome');
 
-    if (defined('MPCE_RUNNING') && MPCE_RUNNING) {
+    if (MPCEContentManager::isBuilderRunning()) {
 	    // Unused
 //        wp_deregister_style('mpce-bootstrap-responsive-utility');
 
@@ -541,10 +324,7 @@ function motopressCEAddFixedRowWidthStyle($handle){
 	wp_add_inline_style($handle, $style);
 }
 
-require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/MPCECustomStyleManager.php';
 $mpceCustomStyleManager = MPCECustomStyleManager::getInstance();
-require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/shortcodes/post_grid/MPCEShortcodePostsGrid.php';
-require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Shortcode.php';
 $shortcode = new MPCEShortcode();
 $shortcode->register();
 
@@ -575,8 +355,7 @@ function motopressCEAdminBarMenu($wp_admin_bar) {
                         'id' => 'motopress-edit',
                         'title' => strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name'])),
                         'meta' => array(
-                            'title' => strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name'])),
-                            'onclick' => 'sessionStorage.setItem("motopressPluginAutoOpen", true);'
+                            'title' => strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name']))
                         )
                     ));
                 }
@@ -586,16 +365,6 @@ function motopressCEAdminBarMenu($wp_admin_bar) {
 }
 add_action('admin_bar_menu', 'motopressCEAdminBarMenu', 81);
 
-function motopressCEExcerptShortcode() {
-    $excerptShortcode = get_option('motopress-ce-excerpt-shortcode', '1');
-    if ($excerptShortcode) {
-        remove_filter('the_excerpt', 'wpautop');
-        add_filter('the_excerpt', 'do_shortcode');
-        add_filter('get_the_excerpt', 'do_shortcode');
-    }
-}
-
-motopressCEExcerptShortcode();
 require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Library.php';
 require_once $motopressCESettings['plugin_dir_path'] . 'includes/getLanguageDict.php';
 
@@ -633,8 +402,7 @@ require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Tutorials.ph
 
 add_action('admin_init', 'motopressCEInit');
 add_action('admin_menu', 'motopressCEMenu', 11);
-add_action('save_post', 'motopressCESave', 10, 2);
-add_action('edit_form_after_title', 'motopressCEAddFieldsToPostForm');
+
 
 function motopressCEInit() {
 	global $motopressCESettings;
@@ -652,8 +420,6 @@ function motopressCEInit() {
 	//new MPCEAutoUpdate($pVer, $motopressCESettings['update_url'], $motopressCESettings['plugin_name'].'/'.$motopressCESettings['plugin_name'].'.php');
 
     //add_action('in_plugin_update_message-'.$motopressCESettings['plugin_name'].'/'.$motopressCESettings['plugin_name'].'.php', 'motopressCEAddUpgradeMessageLink', 20, 2);
-	
-    motopressCERegisterHtmlAttributes();
 
     if (!is_array(get_option('motopress_google_font_classes'))){
         add_action('admin_notices', 'motopress_google_font_not_writable_notice');
@@ -716,40 +482,6 @@ function motopressCEAddUpgradeMessageLink($plugin_data, $r) {
     echo ' ' . strtr($motopressCELang->CEDownloadMessage, array('%link%' => $r->url));
 }
 */
-
-function motopressCERegisterHtmlAttributes() {
-    global $allowedposttags;
-
-    if (isset($allowedposttags['div']) && is_array($allowedposttags['div'])) {
-        $attributes = array_fill_keys(array_values(MPCEShortcode::$attributes), true);
-        $allowedposttags['div'] = array_merge($allowedposttags['div'], $attributes);
-    }
-}
-
-//add_filter('tiny_mce_before_init', 'motopressCERegisterTinyMCEHtmlAttributes', 10, 1);
-// this func override valid_elements of tinyMCE.
-// If you need to use this function you will set all html5 attrs in addition to motopress-attributes
-//function motopressCERegisterTinyMCEHtmlAttributes($options) {
-//    global $motopressCESettings;
-//
-//    if (!isset($options['extended_valid_elements'])) {
-//        $options['extended_valid_elements'] = '';
-//    }
-//
-//    $attributes = array_values(MPCEShortcode::$attributes);
-//    //html5attrs must contain all valid html5 attributes
-//    $html5attrs = array('class', 'id', 'align', 'style');
-//    if (strpos($options['extended_valid_elements'], 'div[')) {
-//        $attributesStr = implode('|', $attributes);
-//        $options['extended_valid_elements'] .= preg_replace('/div\[([^\]]*)\]/', 'div[$1|' . $attributesStr . ']', $options['extended_valid_elements']);
-//    } else {
-//        array_push($attributes, $html5attrs);
-//        $attributesStr = implode('|', $attributes);
-//        $options['extended_valid_elements'] .= ',div[' . $attributesStr . ']';
-//    }
-//
-//    return $options;
-//}
 
 function motopressCEMenu() {
 	global $motopressCESettings;
@@ -818,33 +550,6 @@ function motopressCESetLicenseTabs() {
 
 function motopressCESortTabs($a, $b) {
     return $a['priority'] - $b['priority'];
-}
-
-function motopressCESave($postId, $post) {
-    global $motopressCESettings;
-
-    if (
-        isset($_POST['motopress-ce-edited-post']) &&
-        !empty($_POST['motopress-ce-edited-post']) &&
-        $postId === (int) $_POST['motopress-ce-edited-post'] &&
-        !wp_is_post_revision($postId)
-    ) {
-        update_post_meta($postId, 'motopress-ce-save-in-version', $motopressCESettings['plugin_version']);
-    }
-}
-
-// TODO: Move editor button here
-function motopressCEAddFieldsToPostForm($post) {
-	global $motopressCESettings;
-    require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Access.php';
-
-	$ceAccess = new MPCEAccess();
-    $postTypes = get_option('motopress-ce-options', array('post', 'page'));
-	$postType = get_post_type($post);
-
-	if (in_array($postType, $postTypes) && post_type_supports($postType, 'editor') && $ceAccess->hasAccess()) {
-		echo '<div class="mpce-form-fields"></div>';
-	}
 }
 
 function motopressCEAdminStylesAndScripts() {
@@ -966,16 +671,15 @@ function motopress_edit_link($actions, $post){
     $isHideLinkEditWith = apply_filters('mpce_hide_link_edit_with', false);
 
     if (!$isHideLinkEditWith && $ceAccess->hasAccess($post->ID) && in_array( $post->post_type, $ceEnabledPostTypes ) ){
-
         $newActions = array();
-
         foreach ($actions as $action => $value) {
             $newActions[$action] = $value;
             if ($action === 'inline hide-if-no-js') {
-                $newActions['motopress_edit_link'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '" title="' . esc_attr(strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name']))) . '" onclick="sessionStorage.setItem(&quot;motopressPluginAutoOpen&quot;, true);">' . strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name'])) . '</a>';
+	            $linkTitle = strtr($motopressCELang->CEAdminBarMenu, array('%BrandName%' => $motopressCESettings['brand_name']));
+	            $linkUri = add_query_arg('motopress-ce-auto-open', 'true', get_edit_post_link($post->ID, true));
+                $newActions['motopress_edit_link'] = '<a href="' . $linkUri . '" title="' . esc_attr($linkTitle) . '">' . $linkTitle . '</a>';
             }
         }
-
         return $newActions;
     } else {
         return $actions;

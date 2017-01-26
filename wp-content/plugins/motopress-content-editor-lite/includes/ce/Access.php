@@ -5,6 +5,7 @@
  * @author dima
  */
 class MPCEAccess {
+	private static $_instance = null;
     private $capabilities = array(
         'read' => false,
         //'unfiltered_html' => false,
@@ -38,6 +39,13 @@ class MPCEAccess {
             }
         }*/
     }
+
+	static function getInstance() {
+		if (is_null(self::$_instance)) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
     /**
      * @return boolean

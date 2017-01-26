@@ -4,6 +4,10 @@
             FULLWIDTH_CONTENT_CLASS = 'mp-row-fullwidth-content',
             FIXED_WIDTH_CONTENT_CLASS = 'mp-row-fixed-width-content';
 
+	    var isEditor = function() {
+		    return parent.hasOwnProperty('MP') && parent.MP.hasOwnProperty('Editor');
+	    };
+
 	    var resetRow = function(el) {
 		    el.css({
 			    'width': '',
@@ -17,8 +21,8 @@
 
                 motopressUpdateFullwidthRow();
 
-        if ( parent.hasOwnProperty('MP') && parent.MP.hasOwnProperty('Editor') ) {
-            parent.MP.Editor.onIfr('Resize EditorLoad', function() {
+        if (isEditor()) {
+            parent.MP.Editor.onIfr('Resize EditorLoad LeftBarShow LeftBarHide', function() {
                 motopressUpdateFullwidthRow();
             });
         }
@@ -44,6 +48,10 @@
                 var isFixedWidthContent = $row.hasClass(FIXED_WIDTH_CONTENT_CLASS);
 
                 var rowOffsetLeft = $row.offset().left;
+		        if (isEditor()) {
+			        rowOffsetLeft -= CE.LeftBar.myThis.getSpace();
+		        }
+
                 var rowOffsetRight = rowWidth - rowOffsetLeft - $row.width();
 		        var rowPaddingLeft, rowPaddingRight;
 
@@ -400,26 +408,36 @@ function mpScaleVideo(srcwidth, srcheight, targetwidth, targetheight) {
     });
 })(jQuery);
 
-jQuery(document).ready(function(){
-    jQuery(window).resize(function(){
+jQuery(document).ready(function() {
+    jQuery(window).resize(function() {
         if(this.mpGridGalleryResizeTimeout) clearTimeout(this.mpGridGalleryResizeTimeout);
         this.mpGridGalleryResizeTimeout = setTimeout(function() {
             jQuery(this).trigger('mpGridGalleryResizeEnd');
         }, 500);
     });
-    jQuery(window).on('mpGridGalleryResizeEnd', function(){
+    jQuery(window).on('mpGridGalleryResizeEnd', function() {
         mpRecalcGridGalleryMargins();
     });
 });
-function mpRecalcGridGalleryMargins(gridGalleries){
-    if (typeof(gridGalleries) === 'undefined'){
+
+function mpRecalcGridGalleryMargins(gridGalleries) {
+    if (typeof(gridGalleries) === 'undefined') {
         gridGalleries = jQuery('.motopress-grid-gallery-obj.motopress-grid-gallery-need-recalc');
     }
+
     if (gridGalleries.length) {
-        gridGalleries.each(function(index, el){
-            var spanMarginLeft = jQuery(jQuery(el).find('[class*="mp-span"]').get(1)).css('margin-left');
-            var rows = jQuery(el).find('.mp-row-fluid').not(':first.mp-row-fluid');
-            rows.css('margin-top', spanMarginLeft);
+	    var phoneMaxWidth = 767;
+	    var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+        gridGalleries.each(function(index, el) {
+            var spanMarginLeft = '',
+	            rows = jQuery(el).find('.mp-row-fluid').not(':first.mp-row-fluid');
+
+	        if (windowWidth > phoneMaxWidth) {
+				spanMarginLeft = jQuery(jQuery(el).find('[class*="mp-span"]').get(1)).css('margin-left');
+	        }
+
+	        rows.css('margin-top', spanMarginLeft);
         });
     }
 }
@@ -488,7 +506,7 @@ jQuery(document).ready(function($) {
 });
 (function() {
 
-	if (typeof google === 'undefined') return false;
+	if (typeof google === 'undefined' || typeof google.load === 'undefined') return;
 
     var PIE_HOLE    =  0.5,
         MIN_HEIGHT  =  200,

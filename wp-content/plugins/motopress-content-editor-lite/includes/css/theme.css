@@ -1378,26 +1378,56 @@ img.mfp-img {
 .motopress-button-group-obj i.fa {
   line-height: 0;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-0 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-0 > .motopress-button-group-inner-wrapper {
   margin-left: 0px;
+  margin-right: 0px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-2 .motopress-button-inner-obj {
-  margin-left: 2px;
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-0 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
+  margin-left: 0px;
+  margin-right: 0px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-5 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-2 > .motopress-button-group-inner-wrapper {
+  margin-left: -1px;
+  margin-right: -1px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-2 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
+  margin-left: 1px;
+  margin-right: 1px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-5 > .motopress-button-group-inner-wrapper {
+  margin-left: -2.5px;
+  margin-right: -2.5px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-5 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-10 > .motopress-button-group-inner-wrapper {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-10 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-left: 5px;
+  margin-right: 5px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-10 .motopress-button-inner-obj {
-  margin-left: 10px;
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-15 > .motopress-button-group-inner-wrapper {
+  margin-left: -7.5px;
+  margin-right: -7.5px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-15 .motopress-button-inner-obj {
-  margin-left: 15px;
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-15 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
+  margin-left: 7.5px;
+  margin-right: 7.5px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-25 .motopress-button-inner-obj {
-  margin-left: 25px;
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-25 > .motopress-button-group-inner-wrapper {
+  margin-left: -12.5px;
+  margin-right: -12.5px;
 }
-.motopress-button-group-obj.motopress-button-group-horizontal > .motopress-button-inner-obj,
-.motopress-button-group-obj.motopress-button-group-horizontal > div[data-motopress-shortcode] {
+.motopress-button-group-obj.motopress-button-group-horizontal.motopress-button-group-indent-25 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
+  margin-left: 12.5px;
+  margin-right: 12.5px;
+}
+.motopress-button-group-obj.motopress-button-group-horizontal > .motopress-button-group-inner-wrapper > .motopress-button-inner-obj,
+.motopress-button-group-obj.motopress-button-group-horizontal > .motopress-button-group-inner-wrapper > div[data-motopress-shortcode] {
   display: inline-block !important;
   margin-bottom: 0px;
 }
@@ -1410,43 +1440,35 @@ img.mfp-img {
 .motopress-button-group-obj.motopress-button-group-vertical.motopress-text-align-center .motopress-button-inner-obj {
   text-align: center;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-0 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-0 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 0px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-2 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-2 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 2px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-5 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-5 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 5px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-10 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-10 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 10px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-15 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-15 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 15px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-25 .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical.motopress-button-group-indent-25 > .motopress-button-group-inner-wrapper .motopress-button-inner-obj {
   margin-bottom: 25px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-inner-obj:not(:first-child) a.motopress-btn,
-.motopress-button-group-obj.motopress-button-group-vertical > div[data-motopress-shortcode]:not(:first-child) a.motopress-btn {
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > .motopress-button-inner-obj:not(:first-child) a.motopress-btn,
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > div[data-motopress-shortcode]:not(:first-child) a.motopress-btn {
   margin-top: 0px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-inner-obj:not(:last-child) a.motopress-btn,
-.motopress-button-group-obj.motopress-button-group-vertical > div[data-motopress-shortcode]:not(:last-child) a.motopress-btn {
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > .motopress-button-inner-obj:not(:last-child) a.motopress-btn,
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > div[data-motopress-shortcode]:not(:last-child) a.motopress-btn {
   margin-bottom: 0px;
 }
-.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-inner-obj:last-child,
-.motopress-button-group-obj.motopress-button-group-vertical > div[data-motopress-shortcode]:last-child > .motopress-button-inner-obj {
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > .motopress-button-inner-obj:last-child,
+.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-group-inner-wrapper > div[data-motopress-shortcode]:last-child > .motopress-button-inner-obj {
   margin-bottom: 0px;
-}
-.motopress-button-group-obj.motopress-button-group-vertical > .motopress-button-inner-obj:first-child,
-.motopress-button-group-obj.motopress-button-group-horizontal > .motopress-button-inner-obj:first-child {
-  margin-left: 0;
-}
-.motopress-button-group-obj.motopress-button-group-vertical > div[data-motopress-shortcode]:first-child > .motopress-button-inner-obj,
-.motopress-button-group-obj.motopress-button-group-horizontal > div[data-motopress-shortcode]:first-child > .motopress-button-inner-obj {
-  margin-left: 0;
 }
 .motopress-google-map-obj {
   min-height: inherit;
@@ -1581,7 +1603,7 @@ img.mfp-img {
   height: 32px;
 }
 .motopress-buttons-32x32 a {
-  background-image: url("../../images/social-buttons-32x32.png?ver=2.1.1");
+  background-image: url("../../images/social-buttons-32x32.png?ver=2.2.0");
 }
 .motopress-buttons-32x32.motopress-buttons-square .motopress-button-facebook a {
   background-position: 0 0;
@@ -1720,7 +1742,7 @@ img.mfp-img {
   height: 64px;
 }
 .motopress-buttons-64x64 a {
-  background-image: url("../../images/social-buttons-64x64.png?ver=2.1.1");
+  background-image: url("../../images/social-buttons-64x64.png?ver=2.2.0");
 }
 .motopress-buttons-64x64.motopress-buttons-square .motopress-button-facebook a {
   background-position: 0 0;
@@ -2079,7 +2101,7 @@ img.mfp-img {
   margin-top: -11px;
 }
 .motopress-accordion-obj.ui-accordion .ui-accordion-header .ui-icon {
-  background: transparent url('../../images/accordion.png?ver=2.1.1') no-repeat;
+  background: transparent url('../../images/accordion.png?ver=2.2.0') no-repeat;
   width: 22px;
   height: 22px;
 }
@@ -2587,6 +2609,16 @@ img.mfp-img {
 }
 .motopress-grid-gallery-obj.motopress-grid-gallery-one-column .mp-row-fluid:first-child {
   margin-top: 0;
+}
+@media (max-width: 767px) {
+  .motopress-grid-gallery-obj .mp-row-fluid,
+  .motopress-grid-gallery-obj .mp-row-fluid [class*="mp-span"] {
+    margin-top: 10px;
+  }
+  .motopress-grid-gallery-obj .mp-row-fluid:first-child,
+  .motopress-grid-gallery-obj .mp-row-fluid [class*="mp-span"]:first-child {
+    margin-top: 0;
+  }
 }
 .motopress-service-box-obj .motopress-service-box-icon-section {
   display: inline-block;
@@ -10635,7 +10667,7 @@ img.mfp-img {
   padding-top: 300px;
   padding-bottom: 300px;
 }
-.motopress-hide-script {
+p.motopress-hide-script {
   display: none;
 }
 .motopress-clearfix:before,

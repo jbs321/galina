@@ -139,25 +139,11 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                     this.$moreTag.attr('title', localStorage.getItem('CEMoreHandlerTitle'));
                 },
                 initEvents: function () {
-                    this.$contentWrapper.on('click', '>' + this.pointClass + ', >.motopress-handle-middle-in>' + this.pointClass + '', this.proxy('onPointClick')).on('click', '>' + this.tagClass, this.proxy('onTagClick'));
-                    parent.MP.Editor.oneIfr('EditorLoad', this.proxy('updateStyle'));
-                    parent.MP.Editor.onIfr('LeftBarShow LeftBarHide', this.proxy('updateStyle'));
-                    parent.MP.Editor.onIfr('Resize', this.proxy('updateStyle'));
+                    this.$contentWrapper.on('click', '>' + this.pointClass + ', >.motopress-handle-middle-in>' + this.pointClass + '', this.proxy('onPointClick')).on('click', '>' + this.tagClass, this.proxy('onTagClick'));    
                 },
                 initStyle: function () {
                     this.$style = $('<style type="text/css" id="mpce-wp-more-style" />');
                     this.$body.append(this.$style);
-                },
-                updateStyle: function () {
-                    var styleText = '';
-                    if (CE.LeftBar.myThis.isVisible() && this.contentSectionExists) {
-                        var left = this.$contentWrapper.offset().left - CE.LeftBar.myThis.getSpace();
-                        if (left < 0) {
-                            left = Math.abs(left);
-                            styleText = '.motopress-edit-more-action [class^="mpce-wp-more"]{left:' + left + 'px !important;}';
-                        }
-                    }
-                    this.$style.text(styleText);
                 },
                 onPointClick: function (e, $el) {
                     $el = $(e.target);
@@ -273,7 +259,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                     id: 'motopress-content-editor-leftbar',
                     tabIndex: -1
                 }),
-                leftBarOverlap: $('<div />', { 'class': 'motopress-leftbar-overlap' }),
+                leftBarOverlap: $('<div />', { 'class': 'motopress-leftbar-overlap mpce-leftbar-overlap-hidden' }),
                 widgetsWrapper: $('<div id="mpce-leftbar-widgets-wrapper" />'),
                 customWrapper: $('<div id="mpce-leftbar-custom-wrapper" />'),
                 group: $('<div />', { 'class': 'motopress-leftbar-group motopress-default' }),
@@ -286,13 +272,15 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                 objectIcon: $('<div />', { 'class': 'motopress-ce-object-icon' }),
                 objectName: $('<span />', { 'class': 'motopress-ce-object-name motopress-default motopress-no-color-text' }),
                 library: null,
-                visibility: true,
+                visibility: false,
+                $html: null,
                 bodyEl: null,
                 active: false,
                 setup: function () {
                     this.groupIcon.append(this.groupActive).appendTo(this.groupInner);
                     this.groupInner.append(this.groupPopover).appendTo(this.group);
                     this.objectInner.append(this.objectDot, this.objectIcon, this.objectName).appendTo(this.object);
+                    this.$html = $('html');
                     this.bodyEl = $('body');
                     this.leftBar.append(this.widgetsWrapper, this.customWrapper);
                     this.bodyEl.prepend(this.leftBar).append(this.leftBarOverlap);
@@ -307,12 +295,19 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                     this.initLibrary();
                     this.initCustom();
                     this.hoverActive();
+                    this.initStyle();
                     new CE.DragDrop();
                     var templatesEl = $('#motopress-templates');
                     if (templatesEl.length)
                         new CE.Template(templatesEl);
                     this.addMetaInputs();
                     parent.MP.Preloader.myThis.load(CE.LeftBar.shortName);
+                },
+                initStyle: function () {
+                    var offset = parseFloat(this.$html.css('padding-left')) + this.width;
+                    this.$style = $('<style type="text/css" id="mpce-left-bar-style" />');
+                    this.$style.text('html.mpce-page-offset { padding-left: ' + offset + 'px !important; }');
+                    this.bodyEl.append(this.$style);
                 },
                 initCustom: function () {
                     var self = this, groupStr, $group, $btns = {};
@@ -503,6 +498,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                     $('.motopress-leftbar-group .motopress-leftbar-group-active').mouseover(this.activeGrpOnMouseover);
                 },
                 disable: function () {
+                    this.hideActiveWidgetsGroup();
                     this.leftBarOverlap.show();
                 },
                 enable: function () {
@@ -532,16 +528,24 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         this.setInvisible();
                         this.hideActiveWidgetsGroup();
                         this.leftBar.addClass('mpce-leftbar-hidden');
-                        parent.MP.Editor.triggerIfr('LeftBarHide');
-                    }    
+                        this.leftBarOverlap.addClass('mpce-leftbar-overlap-hidden');
+                        this.$html.removeClass('mpce-page-offset');
+                        parent.CE.Iframe.myThis.setSceneWidth();
+                        CE.Resizer.myThis.updateAllHandles();
+                        parent.MP.Editor.triggerEverywhere('LeftBarHide');
+                    }
                 },
                 show: function (hard) {
                     hard = typeof hard === 'undefined' ? false : hard;
                     if (hard || this.isActive()) {
                         this.setVisible();
                         this.leftBar.removeClass('mpce-leftbar-hidden');
-                        parent.MP.Editor.triggerIfr('LeftBarShow');
-                    }    
+                        this.leftBarOverlap.removeClass('mpce-leftbar-overlap-hidden');
+                        this.$html.addClass('mpce-page-offset');
+                        parent.CE.Iframe.myThis.setSceneWidth();
+                        CE.Resizer.myThis.updateAllHandles();
+                        parent.MP.Editor.triggerEverywhere('LeftBarShow');
+                    }
                 },
                 hideActiveWidgetsGroup: function () {
                     this.leftBar.find('.motopress-leftbar-group[data-clickover-open="1"]').trigger('mousedown');
@@ -6093,11 +6097,13 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             },
                             error: function (jqXHR) {
                                 var error = $.parseJSON(jqXHR.responseText);
-                                if (error.debug) {
-                                    console.log(error.message);
-                                } else {
-                                    parent.MP.Flash.setFlash(error.message, 'error');
-                                    parent.MP.Flash.showMessage();
+                                if ($.isPlainObject(error) && error.hasOwnProperty('message')) {
+                                    if (error.debug) {
+                                        console.log(error.message);
+                                    } else {
+                                        parent.MP.Flash.setFlash(error.message, 'error');
+                                        parent.MP.Flash.showMessage();
+                                    }
                                 }
                                 handle.removeClass(CE.Shortcode.preloaderClass);
                             }
@@ -6503,6 +6509,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
             });
         }(jQuery));
         (function ($) {
+            var FULL_WIDTH_OUTER_HELPER_WIDTH = 25;
             CE.Resizer = can.Construct(
             { myThis: null }, 
             {
@@ -6606,7 +6613,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             start: function (e, ui) {
                                 CE.Utils.addSceneAction('resize');
                                 CE.LeftBar.myThis.disable();
-                                CE.LeftBar.myThis.hide();
                                 $this.hideSplitters();
                                 $this.hideEmptySpans();
                                 $('.motopress-content-wrapper > .motopress-handle-middle-in:last').height('');
@@ -6678,7 +6684,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             stop: function (e, ui) {
                                 CE.Utils.removeSceneAction('resize');
                                 CE.LeftBar.myThis.enable();
-                                CE.LeftBar.myThis.show();
                                 $this.showSplitters();
                                 $this.showEmptySpans();
                                 CE.Resizer.myThis.splitterHandle = false;
@@ -6871,7 +6876,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             oldUIPosLeft = null;
                             triggerStop = false;
                             CE.LeftBar.myThis.disable();
-                            CE.LeftBar.myThis.hide();
                             $(this).addClass('motopress-splitter-hover');
                             if (CE.Dialog.myThis.element.dialog('isOpen'))
                                 CE.Dialog.myThis.element.dialog('close');
@@ -6957,7 +6961,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         stop: function (e, ui) {
                             CE.Utils.removeSceneAction('split');
                             CE.LeftBar.myThis.enable();
-                            CE.LeftBar.myThis.show();
                             $this.showSplitters();
                             $this.showEmptySpans();
                             ui.helper.closest('.motopress-row').find('.motopress-drag-handle').css('cursor', 'move');
@@ -7009,6 +7012,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             var half1, half2;
                             var snapGird = $(this).data('mp-snap-grid');
                             var maxCols = snapGird.length - 1;
+                            var barOffset = CE.LeftBar.myThis.getSpace();
                             if (maxCols > 1) {
                                 half1 = Math.abs(snapGird[2]) - Math.abs(snapGird[1]);
                                 half2 = Math.abs(snapGird[maxCols]) - Math.abs(snapGird[maxCols - 1]);
@@ -7021,7 +7025,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                                 half1 -= CE.Grid.myThis.padding;
                             if (half2 > CE.Grid.myThis.padding)
                                 half2 -= CE.Grid.myThis.padding;
-                            var cond1 = e.pageX <= 2 || curUIPosLeft <= Math.abs(snapGird[1]) - half1;
+                            var cond1 = e.pageX <= barOffset + 2 || curUIPosLeft <= Math.abs(snapGird[1]) - half1;
                             var cond2 = e.pageX >= $(document).width() - 2 || curUIPosLeft >= Math.abs(snapGird[maxCols]) + half2 * 1.5;
                             if (cond1 || cond2) {
                                 if (cond1 && $this.curSplitterArea === 'left')
@@ -7337,7 +7341,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                             var rowFirstOffset = rowFirst.offset();
                             var rowFirstMarginLeft = parseFloat(rowFirst.css('margin-left'));
                             var rowLast = $('.motopress-content-wrapper > .motopress-row:last');
-                            var leftBarWidth = 0;
+                            var leftBarWidth = CE.LeftBar.myThis.getSpace();
                             var handleOffset = rowFirstOffset.left - leftBarWidth;
                             $('.motopress-content-wrapper > .motopress-row').each(function () {
                                 var row = $(this);
@@ -7360,7 +7364,7 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                                             }
                                             var width = spanEdgeOffset + spanEdgeBorder + CE.Grid.myThis.padding;
                                             if (Math.floor(width) <= 0) {
-                                                width = 25;
+                                                width = FULL_WIDTH_OUTER_HELPER_WIDTH;
                                                 spanEdgeOffset = 0;
                                             }
                                             var properties = {
@@ -8070,7 +8074,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         start: function (ui) {
                             CE.Utils.addSceneAction('drag');
                             CE.LeftBar.myThis.disable();
-                            CE.LeftBar.myThis.hide();
                             $this.showOuterHandles();
                             $this.canDrop = true;
                             CE.Selectable.myThis.unselect(dragHandle);
@@ -8081,7 +8084,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         stop: function (e, ui) {
                             CE.Utils.removeSceneAction('drag');
                             CE.LeftBar.myThis.enable();
-                            CE.LeftBar.myThis.show();
                             $this.hideOuterHandles();
                             $('.motopress-splitter').removeClass('motopress-hide');
                             $(this).css('opacity', '');
@@ -8108,7 +8110,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         start: function (e, ui) {
                             CE.Utils.addSceneAction('drag');
                             CE.LeftBar.myThis.disable();
-                            CE.LeftBar.myThis.hide();
                             $this.showOuterHandles();
                             $this.canDrop = true;
                             ui.position.top = e.pageY - contentWrapperTop - cursorAt.top;
@@ -8124,7 +8125,6 @@ parent.MP.Editor.oneIfr('ParentEditorReady', function () {
                         stop: function (e, ui) {
                             CE.Utils.removeSceneAction('drag');
                             CE.LeftBar.myThis.enable();
-                            CE.LeftBar.myThis.show();
                             $this.hideOuterHandles();
                             $('.motopress-empty-scene-type-here').removeClass('motopress-empty-scene-type-here-nohover');
                             $('.motopress-splitter').removeClass('motopress-hide');

@@ -1,16 +1,9 @@
 <?php
 function motopressCEAddTools() {
-	global $motopressCESettings;
-
-    require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Access.php';
-    $ceAccess = new MPCEAccess();
     global $isMotoPressCEPage;
     $isMotoPressCEPage = true;
 
     $motopressCELibrary = MPCELibrary::getInstance();
-
-    $postType = get_post_type();
-    $postTypes = get_option('motopress-ce-options', array('post', 'page'));
 
     $gridObjects = $motopressCELibrary->getGridObjects();
     $renderedShortcodes = array(
@@ -30,17 +23,27 @@ function motopressCEAddTools() {
         $renderedShortcodes['empty'][$shortcodeName] = do_shortcode($shortcode);
     }
 
-    if (in_array($postType, $postTypes) && post_type_supports($postType, 'editor') && $ceAccess->hasAccess()) {
+    if (MPCEContentManager::isEditorAvailableForPost()) {
+    	global $motopressCESettings, $motopressCELang;
+
+    	$postID = get_the_ID();
+		$postEnabled = MPCEContentManager::isPostEnabledForEditor($postID);
+		$scriptSuffix = $motopressCESettings['script_suffix'];
+
+		add_action('admin_head', 'motopressCEAddCEBtn');
+
+    	wp_register_style('mpce-style',$motopressCESettings['plugin_dir_url'] . 'includes/css/style' . $scriptSuffix . '.css', null, $motopressCESettings['plugin_version']);
+        wp_enqueue_style('mpce-style');
+
+        if (!$postEnabled) return;
+
 	    require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/ThemeFix.php';
 	    $themeFix = new MPCEThemeFix(MPCEThemeFix::DEACTIVATE);
-
-        global $motopressCELang;
-	    $scriptSuffix = $motopressCESettings['script_suffix'];
 
         wp_localize_script('jquery', 'motopress', $motopressCESettings['motopress_localize']);
         wp_localize_script('jquery', 'motopressCE',
             array(
-                'postID' => get_the_ID(),
+                'postID' => $postID,
 //                'postPreviewUrl' => post_preview(),
                 'nonces' => array(
                     'motopress_ce_get_wp_settings' => wp_create_nonce('wp_ajax_motopress_ce_get_wp_settings'),
@@ -68,13 +71,10 @@ function motopressCEAddTools() {
 				'styleEditor' => MPCECustomStyleManager::getLocalizeJSData()
             )
         );
-        add_action('admin_head', 'motopressCEAddCEBtn');
+
         add_action('admin_footer', 'motopressCEHTML'); //admin_head
 
         motopressCECheckDomainMapping();
-
-        wp_register_style('mpce-style',$motopressCESettings['plugin_dir_url'] . 'includes/css/style' . $scriptSuffix . '.css', null, $motopressCESettings['plugin_version']);
-        wp_enqueue_style('mpce-style');
 
         wp_register_style('mpce', $motopressCESettings['plugin_dir_url'] . 'mp/ce/css/ce' . $scriptSuffix . '.css', null, $motopressCESettings['plugin_version']);
         wp_enqueue_style('mpce');
@@ -127,7 +127,8 @@ function motopressCECheckDomainMapping() {
     global $wpdb;
 
     if (is_multisite()) {
-        if (is_plugin_active('domain-mapping/domain-mapping.php') || is_plugin_active('wordpress-mu-domain-mapping/domain_mapping.php')) {
+	    $wmudmActive = is_plugin_active('wordpress-mu-domain-mapping/domain_mapping.php');
+        if ($wmudmActive) {
             $blogDetails = get_blog_details();
             $mappedDomains = $wpdb->get_col(sprintf("SELECT domain FROM %s WHERE blog_id = %d ORDER BY id ASC", $wpdb->dmtable, $blogDetails->blog_id));
             if (!empty($mappedDomains)) {
@@ -148,10 +149,7 @@ function motopressCEDomainMappingNotice() {
 function motopressCEHTML() {
 	if (!user_can_richedit()) return false;
 
-    global $motopressCESettings;
-    global $motopressCELang;
-    global $pagenow;
-    global $post;
+	global $post, $motopressCESettings, $motopressCELang, $pagenow;
 
 //    global $post;
 //    $nonce = wp_create_nonce('post_preview_' . $post->ID);
@@ -407,40 +405,260 @@ function motopressCEHTML() {
 
 }
 
+function motopressCEAddArea() {
+	global $post;
+
+	$postID = $post->ID;
+	$postActive = MPCEContentManager::isPostEnabledForEditor($postID);
+	$builderActive = MPCEContentManager::isEditorAvailableForPost($postID);
+
+	if ($postActive && $builderActive) {
+		$content = MPCEContentManager::getEditorContent($postID);
+		$content = $content ? $content : '';
+
+		$editorHeight = (int)get_user_setting('ed_size');
+		$editorHeight = $editorHeight ? $editorHeight : 300;
+		?>
+		<div id="motopress-ce-tinymce-wrap">
+			<?php wp_editor($content, MPCEContentManager::CONTENT_EDITOR_ID, array('editor_height' => $editorHeight)); ?>
+		</div>
+		<?php
+	}
+}
+add_action('edit_form_after_editor', 'motopressCEAddArea');
+
 function motopressCEAddCEBtn() {
-    global $motopressCESettings;
-    global $motopressCELang;
-    global $post;
-    global $motopressCEIsjQueryVer;
-    global $wp_version;
-	$post_status = get_post_status(get_the_ID());
-    $CEButtonText = apply_filters('mpce_button_text', strtr($motopressCELang->CEButton, array('%BrandName%' => $motopressCESettings['brand_name'])));
+    global $post, $motopressCESettings, $motopressCELang, $motopressCEIsjQueryVer, $wp_version;
+
+	$postID = get_the_ID();
+	$mpceEnabled = MPCEContentManager::isPostEnabledForEditor($postID);
+	$post_status = get_post_status($postID);
 	$userCanRichedit = user_can_richedit();
 
 	$scriptSuffix = $motopressCESettings['script_suffix'];
-
+	$pluginDirUrl = $motopressCESettings['plugin_dir_url'];
     ?>
     <script type="text/javascript">
-
-	    // Define `MP` & `CE`
-        window.MP = {};
+    (function($) {
+	    /* --- Define Scopes --- */
+        window.MP = {
+	        Loader: (function() {
+		        var callbacks = [], map = {};
+		        return {
+			        add: function(name, callback) {
+				        callbacks.push(callback);
+				        map[name] = callbacks.length - 1;
+			        },
+			        execSingle: function(name) {
+				        if (map[name] !== undefined) {
+					        callbacks[map[name]]();
+				        }
+			        },
+			        execAll: function() {
+				        var cbLen = callbacks.length;
+				        for (var i = 0; i < cbLen; i++) {
+					        if (typeof callbacks[i] === 'function') {
+						        callbacks[i]();
+					        }
+				        }
+			        }
+		        }
+	        })()
+        };
         window.CE = {};
 
-	    jQuery(document).ready(function($) {
-            if (!MPCEBrowser.IE && !MPCEBrowser.Opera) {
+        /* --- Vars --- */
+	    var mpceEditorId = 'motopresscecontent',
+		    wpEditorId = 'content',
+		    mpceCodeEditorId = 'motopresscodecontent';
 
-	            var $form = $('#mpce-form'),
+	    <?php if ($mpceEnabled) { ?>
+
+		/**
+	     * This func is in tinyMCE.mpceEditor scope
+	     * @returns {boolean}
+	     */
+		window.mpceIsDirtyDecorator = function() {
+	        return MP.WpRevision.isDirty();
+        };
+
+	    window.MP.WpRevision = new (function WpRevision() {
+		    var self = this,
+				dirty = false,
+				wpEditor = null, mpceEditor = null;
+
+		    // --- Public ---
+		    this.init = function() {
+			    wpEditor = tinyMCE.get('content');
+	            mpceEditor = tinyMCE.get('motopresscecontent');
+
+			    bindDecorator();
+		    };
+
+	        /**
+		     * If builder's isDirty == TRUE then use it, else use tinyMCE's isDirty
+		     * @returns {boolean}
+		     */
+	        this.isDirty = function() {
+			    var isDirty = this.isBuilderDirty();
+			    // if (!MP.Editor.myThis.isOpen()) {
+			    if (!isDirty) isDirty = mpceEditor.old_isDirty();
+			    if (!isDirty) isDirty = wpEditor.old_isDirty();
+			    // }
+
+			    return isDirty;
+	        };
+
+	        this.isBuilderDirty = function() {
+		        return dirty;
+	        };
+
+	        this.setBuilderDirty = function(value) {
+		        dirty = value;
+	        };
+
+	        this.makeWpNonDirty = function() {
+		        // It will reset `tinyMCE Dirty flag`
+		        tinyMCE.triggerSave();
+	        };
+	        // --- End Public ---
+
+		    // --- Private ---
+		    function bindDecorator() {
+			    var hasDirtyFunc = (mpceEditor && typeof mpceEditor.isDirty !== 'undefined');
+
+	            if (hasDirtyFunc) {
+		            // Focus builder's editor
+	                mpceEditor.focus();
+
+		            // Store original func
+		            wpEditor.old_isDirty = wpEditor.isDirty;
+	                mpceEditor.old_isDirty = mpceEditor.isDirty;
+
+		            // Bind decorated func
+		            wpEditor.isDirty = mpceIsDirtyDecorator;
+		            mpceEditor.isDirty = mpceIsDirtyDecorator;
+	                tinyMCE.activeEditor.isDirty = mpceIsDirtyDecorator;
+	            }
+	        }
+	        // --- End Private ---
+	    });
+	    <?php } ?>
+	    /* --- End Define Scopes --- */
+
+	    $(document).ready(function() {
+		    /* --- Tabs --- */
+		    // --- Vars ---
+		    var
+			    $title = $('#title'),
+			    $defaultTab = $('#mpce-tab-default'),
+			    $editorTab = $('#mpce-tab-editor'),
+			    activeTabClass = 'nav-tab-active',
+			    $mpceArea = $('#motopress-ce-tinymce-wrap'),
+			    $postEditorArea = $('#postdivrich'),
+			    $areaSet = $mpceArea.add($postEditorArea),
+			    $mpceTabs = $('.mpce-tab');
+
+		    var preloader = $('#motopress-preload');
+		    // --- End Vars ---
+
+		    var insertStatusField = function(status) {
+			    $('.mpce-hidden-fields').empty()
+				    .append(
+					    $('<input />', {
+						    type: 'hidden',
+						    name: 'mpce-status',
+						    value: status ? 'enabled' : 'disabled'
+					    })
+				    );
+		    };
+
+		    var switchWithStatus = function(status) {
+			    $(window).off('beforeunload');
+//			    preloader.show();
+			    insertStatusField(status);
+			    $('form#post').submit();
+		    };
+
+		    var setDefaultTitle = function() {
+			    var noTitle = '<?php echo "Post #{$postID}"; ?>';
+			    if (!noTitle) noTitle = '<?php echo $motopressCELang->CEEmptyPostTitle; ?>';
+			    $title.val(noTitle);
+			    $('form[name="post"] #title-prompt-text').addClass('screen-reader-text');
+		    };
+
+		    var wpTabCallback = function() {
+			    if ($(this).hasClass(activeTabClass)) return;
+
+			    //if (confirm('Are you sure?')) {
+			    $(this).off('click', wpTabCallback);
+			    switchWithStatus(false);
+			    //}
+		    };
+
+		    var mpceTabCallback = function() {
+			    if ($(this).hasClass(activeTabClass)) return;
+			    $(this).off('click', mpceTabCallback);
+
+			    <?php if ($post_status == 'auto-draft') { ?>
+			    if ($title.length && !$.trim($title.val()).length) {
+					setDefaultTitle();
+			    }
+			    <?php } ?>
+
+//			    sessionStorage.setItem('motopressPluginAutoOpen', true);
+			    switchWithStatus(true);
+		    };
+
+		    // --- Bind Events ---
+		    !$defaultTab.hasClass(activeTabClass) && $defaultTab.on('click', wpTabCallback);
+		    !$editorTab.hasClass(activeTabClass) && $editorTab.on('click', mpceTabCallback);
+		    // --- End Bind Events ---
+
+		    /* --- End Tabs --- */
+
+    <?php if ($mpceEnabled) { ?>
+
+		    // Vars
+		    var supportedBrowser = !MPCEBrowser.IE && !MPCEBrowser.Opera;
+		    var motopressCEButton = $('#motopress-ce-btn');
+
+		    // Init
+		    if (supportedBrowser) {
+			    motopressCEButton.show();
+		    } else {
+			    motopressCEButton.remove();
+		    }
+
+		    if (supportedBrowser) {
+	            var
+		            $form = $('#mpce-form'),
 		            draftSaved = false,
 		            tinymceDefined = (typeof tinyMCE !== 'undefined'),
 		            userCanRichedit = <?php echo (int) $userCanRichedit; ?>,
 		            pluginAutoOpen = false;
 
+	            var
+	                editorIds = [wpEditorId, mpceCodeEditorId, mpceEditorId],
+		            tinyMCEInitedDefers = {};
+
+	            motopressCE.tinyMCEInited = {};
+	            motopressCE.tinyMCEInitedArray = [];
+
+	            editorIds.forEach(function(id) {
+		            var defer = $.Deferred();
+		            var promise = defer.promise();
+
+		            tinyMCEInitedDefers[id] = defer;
+					motopressCE.tinyMCEInited[id] = promise;
+					motopressCE.tinyMCEInitedArray.push(promise);
+	            });
+
 
 	            // --- Load Top Editor scripts ---
-
 	            // Load CanJS
 	            var canjsStatus = $.ajax({
-		            url: '<?php echo $motopressCESettings["plugin_dir_url"] . 'vendors/canjs/can.custom.min.js?ver=' . $motopressCESettings['canjs_version']; ?>',
+		            url: '<?php echo $pluginDirUrl . 'vendors/canjs/can.custom.min.js?ver=' . $motopressCESettings['canjs_version']; ?>',
 		            dataType: 'script',
 		            cache: true,
 //		            success: function(script, textStatus) {},
@@ -450,38 +668,20 @@ function motopressCEAddCEBtn() {
 	            });
 
 	            // Load Top Editor
-
-	            var parentEditorStatusDef = $.Deferred(),
-					parentEditorStatus = parentEditorStatusDef.promise(),
-		            handleParentEditorError;
-
-	            $.ajax({
-		            url: '<?php echo $motopressCESettings["plugin_dir_url"] . 'mp/ce/editor' . $scriptSuffix . '.js?ver=' . $motopressCESettings['plugin_version']; ?>',
-		            dataType: 'text',
+	            var parentEditorStatus = $.ajax({
+		            url: '<?php echo $pluginDirUrl . 'mp/ce/editor' . $scriptSuffix . '.js?ver=' . $motopressCESettings['plugin_version']; ?>',
+		            dataType: 'script',
 		            cache: true,
-		            success: function(script, textStatus, xhr) {
-			            var cType = xhr.getResponseHeader('content-type') || '';
-			            if (cType.indexOf('javascript') > -1) { // If JS type
-				            parentEditorStatusDef.resolve(script, textStatus, xhr);
-			            } else {
-				            handleParentEditorError(xhr, textStatus, {
-					            name: '<?php echo $motopressCELang->topEditorLoadErrorName; ?>',
-					            message: '<?php echo $motopressCELang->topEditorLoadErrorMessage; ?>'
-				            });
-			            }
-		            },
-		            error: handleParentEditorError = function(xhr, textStatus, error) {
-			            parentEditorStatusDef.reject();
+		            error: function(xhr, textStatus, error) {
 			            MP.Error.log(error);
 		            }
 	            });
 
 	            // Load Bootstrap JS
 	            var bootstrapStatus = $.ajax({
-		            url: '<?php echo $motopressCESettings["plugin_dir_url"] . 'bootstrap/bootstrap2-custom.min.js'; ?>',
+		            url: '<?php echo $pluginDirUrl . 'bootstrap/bootstrap2-custom.min.js'; ?>',
 		            dataType: 'script',
 		            cache: true,
-//		            success: function(script, textStatus) {},
 		            error: function(xhr, textStatus, error) {
 						MP.Error.log(error);
 		            }
@@ -491,32 +691,16 @@ function motopressCEAddCEBtn() {
 	            var head = $('head')[0];
                 var bootstrapCSS = $('<link />', {
 	                rel: 'stylesheet',
-                    href: '<?php echo $motopressCESettings["plugin_dir_url"]; ?>' + 'bootstrap/bootstrap-icon.min.css'
+                    href: '<?php echo $pluginDirUrl; ?>' + 'bootstrap/bootstrap-icon.min.css'
                 })[0];
                 head.appendChild(bootstrapCSS);
-
 	            // --- End Load Top Editor scripts ---
-
-
-	            var motopressCEButton = $('<input />', {
-                    type: 'button',
-                    id: 'motopress-ce-btn',
-                    'class': 'wp-core-ui button-primary',
-                    value: '<?php echo $CEButtonText; ?>',
-                    'data-post-id' : '<?php echo $post->ID; ?>',
-                    'data-post-status' : '<?php echo $post_status; ?>'
-                });
-	            if (userCanRichedit && tinymceDefined) {
-		            motopressCEButton.attr('disabled', 'disabled');
-	            }
-	            motopressCEButton.insertAfter($('div#titlediv'));
 
                 <?php if (extension_loaded('mbstring')) { ?>
                     <?php if ($motopressCEIsjQueryVer) { ?>
-                        var preloader = $('#motopress-preload');
                         motopressCEButton.on('click', function() {
 
-	                    <?php if ($userCanRichedit) : ?>
+	                    <?php if ($userCanRichedit) { ?>
 
 	                        if (!tinymceDefined) {
 		                        alert('<?php echo $motopressCELang->needWpEditorNotice; ?>');
@@ -524,21 +708,24 @@ function motopressCEAddCEBtn() {
 	                        }
 
 	                        $('#motopress-content-editor-scene').remove();
-	                        $form.after('<iframe id="motopress-content-editor-scene" class="motorpess-content-editor-scene" name="motopress-content-editor-scene" style="min-width: 100% !important;"></iframe>');
+	                        $form.after('<iframe id="motopress-content-editor-scene" class="motopress-content-editor-scene" name="motopress-content-editor-scene" style="min-width: 100% !important;"></iframe>');
 
                             //console.time('ce');
                             //console.profile();
 
                             preloader.show();
 
+	                        // This code block unused since v2.2.0
+	                        // ... `post_status` can't be `auto-draft` because we can open builder only after saving draft (after switch to builder tab).
 	                        if (!draftSaved) {
 	                        <?php if ($post_status == 'auto-draft') { ?>
-
 		                        <?php if (version_compare($wp_version, '3.6', '<')) { ?>
-		                        var editor = tinymceDefined && tinymce.get('content');
-		                        if (editor && !editor.isHidden()) editor.save();
+		                        var editor = tinymceDefined && tinymce.get(wpEditorId);
+		                        if (editor && !editor.isHidden()) {
+			                        editor.save();
+		                        }
 		                        var postData = {
-			                        post_title: $('#title').val() || '',
+			                        post_title: $title.val() || '',
 			                        content: $('#content').val() || '',
 			                        excerpt: $('#excerpt').val() || ''
 		                        };
@@ -546,40 +733,34 @@ function motopressCEAddCEBtn() {
 		                        var postData = wp.autosave.getPostData();
 		                        <?php } ?>
 
+		                        // Wrong content condition. Since v2.2.0 content placed in another field.
 		                        if (!postData.content.length && !postData.excerpt.length && !$.trim(postData.post_title).length) {
-			                        var noTitle = '<?php _e('(no title)'); ?>';
-			                        if (!noTitle) noTitle = '<?php echo $motopressCELang->CEEmptyPostTitle; ?>';
-			                        $('#title').val(noTitle);
-			                        $('form[name="post"] #title-prompt-text').addClass('screen-reader-text');
+			                        setDefaultTitle();
 			                        draftSaved = true;
 		                        }
-
 	                        <?php } ?>
 	                        }
 //                            sessionStorage.setItem('motopressPluginAutoSaved', false);
 
 	                        if ($.isEmptyObject(CE)) {
 	                            // Run Top Editor script on load
-					            parentEditorStatus.done(function(script, textStatus) {
-						            $.globalEval(script);
+					            parentEditorStatus.done(function() {
+						            window.MP.Loader.execSingle('parent_editor');
 					            });
 
                             } else {
 								MP.Editor.myThis.open();
                             }
 
-                        <?php else : ?>
-
+                        <?php } else { ?>
 	                        alert('<?php echo $motopressCELang->needWpEditorVisualNotice; ?>');
-
-                        <?php endif; ?>
+                        <?php } ?>
                         });
 
-					<?php if ($userCanRichedit) : ?>
+					<?php if ($userCanRichedit) { ?>
 
                         function mpceOnEditorInit() {
 	                        // Wait for Top Editor scripts
-//	                        $.when(canjsStatus, bootstrapStatus, parentEditorStatus).done(function() {
 	                        $.when.apply($, [canjsStatus, bootstrapStatus, parentEditorStatus]).done(function() {
 		                        motopressCEButton.removeAttr('disabled');
 		                        if (pluginAutoOpen) {
@@ -589,25 +770,15 @@ function motopressCEAddCEBtn() {
                         }
 
 			            if (tinymceDefined) {
-
 				            var editorState = "<?php echo wp_default_editor(); ?>";
 				            var paramPluginAutoOpen = ('<?php if (isset($_GET['motopress-ce-auto-open']) && $_GET['motopress-ce-auto-open']) echo $_GET['motopress-ce-auto-open']; ?>' === 'true') ? true : false; //fix different site (WordPress Address) and home (Site Address) url for sessionStorage
 				            pluginAutoOpen = sessionStorage.getItem('motopressPluginAutoOpen');
 	                        pluginAutoOpen = ((pluginAutoOpen && pluginAutoOpen === 'true') || paramPluginAutoOpen) ? true : false;
 	                        if (pluginAutoOpen) preloader.show();
 
-							var tinyMCEEditorInitedDefer = $.Deferred(),
-								tinyMCECodeEditorInitedDefer = $.Deferred();
-
-							motopressCE.tinyMCEEditorInited = tinyMCEEditorInitedDefer.promise();
-							motopressCE.tinyMCECodeEditorInited = tinyMCECodeEditorInitedDefer.promise();
-
 				            function resolveMPTinyMCEEditors(editorID, editor) {
-					            if (editorID === 'content') {
-						            tinyMCEEditorInitedDefer.resolve(editor);
-					            }
-					            if (editorID === 'motopresscodecontent') {
-						            tinyMCECodeEditorInitedDefer.resolve(editor);
+					            if (tinyMCEInitedDefers.hasOwnProperty(editorID)) {
+						            tinyMCEInitedDefers[editorID].resolve(editor);
 					            }
 				            }
 
@@ -626,15 +797,22 @@ function motopressCEAddCEBtn() {
 							}
 
 				            if (editorState === 'tinymce') {
-	                            $.when(motopressCE.tinyMCEEditorInited, motopressCE.tinyMCECodeEditorInited).done(function() {
-		                            mpceOnEditorInit();
+					            $.when.apply($, motopressCE.tinyMCEInitedArray).done(function() {
+						            mpceOnEditorInit();
+						            var focusT = setTimeout(function() {
+							            tinyMCE.get(mpceEditorId).focus();
+							            window.MP.WpRevision.init();
+							            clearTimeout(focusT);
+						            }, 0);
 								});
-	                        } else {
+	                        }
+	                        // TODO: Now the tinyMCE state is always `tinymce` and this condition no longer needed
+	                        else {
 					            mpceOnEditorInit();
 	                        }
 	                    }
 
-		            <?php endif; ?>
+		            <?php } ?>
 
 		            sessionStorage.setItem('motopressPluginAutoOpen', false);
 
@@ -643,20 +821,18 @@ function motopressCEAddCEBtn() {
                     } // endif jquery version check
                 } else {
                     add_action('admin_notices', 'motopressCEIsMBStringEnabledNotice');
-                }?>
+                } ?>
             }
-        });
+	    <?php } ?>
+	    });
+    })(jQuery);
     </script>
-    <?php
-    $isHideNativeEditor = apply_filters('mpce_hide_native_editor', false);
-    if ($isHideNativeEditor) { ?>
-    <style type="text/css">
-        #postdivrich{
-            display: none;
-        }
-    </style>
-    <?php
-    }
+    <?php $isHideNativeEditor = apply_filters('mpce_hide_native_editor', false); ?>
+	<style type="text/css"><?php
+	    ($isHideNativeEditor || $mpceEnabled) && print('#postdivrich{display: none;}');
+	    ($isHideNativeEditor) && print('#motopress-ce-tinymce-wrap{display: none;}');
+	    ($isHideNativeEditor && $mpceEnabled) && print('#mpce-tab-default{display: none;}');
+	?></style><?php
 }
 
 function motopressCEIsjQueryVerNotice() {

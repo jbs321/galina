@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Artwork Theme Engine
  * Description: Adds Works post type, theme wizard and page templates to Artwork theme.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: MotoPress
  * Author URI: http://www.getmotopress.com/
  * License: GPLv2 or later

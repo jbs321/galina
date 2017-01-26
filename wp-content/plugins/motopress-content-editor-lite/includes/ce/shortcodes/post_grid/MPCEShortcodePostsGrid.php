@@ -7,7 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  */
 class MPCEShortcodePostsGrid {
-	
+
+	const TAG = 'posts_grid';
+
 	const SECRET_KEY_OPTION = 'motopress-ce-post-grid-secret-key';
 
 	const FILTER_FIRST_TAXONOMY = 'cats';
@@ -47,44 +49,7 @@ class MPCEShortcodePostsGrid {
 	 * @return array Shortcode default attributes.
 	 */
 	public function getDefaultAttrs() {
-		$motopressCELang = motopressCEGetLanguageDict();
-		return array(
-			'query_type' => 'simple',
-			'post_type' =>  'post',
-			'columns' => 3,
-			'category' => '',
-			'tag' => '',
-			'posts_per_page' => 3,
-			'posts_order' => 'DESC',
-			'custom_tax' => '',
-			'custom_tax_field' => '',
-			'custom_tax_terms' => '',
-			'custom_query' => '',
-			'ids' => '',
-			'template' => 'plugins/motopress-content-editor/includes/ce/shortcodes/post_grid/templates/template1.php',
-			'posts_gap' => 30,
-			'show_featured_image' => 'true',
-			'image_size' => 'large',
-			'image_custom_size' => '',
-			'title_tag' => 'h2',
-			'show_date_comments' => 'true',
-			'show_content' => 'short',
-			'short_content_length' => 200,
-			'read_more_text' => '',
-			'display_style' => 'false', // Not "show_all", for compatibility with elder versions
-			'pagination' => 'false',
-			'load_more_btn' => 'false',
-			'load_more_text' => $motopressCELang->CEPostsGridObjLoadMoreTextDefault,
-			'filter' => 'none',
-			'filter_tax_1' => 'category',
-			'filter_tax_2' => 'post_tag',
-			'filter_btn_color' => 'motopress-btn-color-silver',
-			'filter_btn_divider' => '',
-			'filter_cats_text' => '',
-			'filter_tags_text' => '',
-			'filter_all_text' => '',
-//			'show_sticky_posts' => 'false',
-		);
+		return MPCEShortcodeAtts::get(MPCEShortcode::PREFIX . self::TAG);
 	}
 	
 	public static function generateSecretKey(){
@@ -610,10 +575,10 @@ class MPCEShortcodePostsGrid {
 		$mp_style_classes = $this->getAttr('mp_style_classes');
         if (!empty($mp_style_classes)) $mp_style_classes = ' ' . $mp_style_classes;
 
-		$shortcodeAttrStr = self::generateShortcodeAttrsString($this->getShortcodeAttrs());		
+		$shortcodeAttrStr = self::generateShortcodeAttrsString($this->getShortcodeAttrs());
         $result .= '<div id="' . $this->getUniqueId() . '" class="motopress-posts-grid-obj motopress-posts-grid-gap-'. $this->getAttr('posts_gap')
-			. MPCEShortcode::handleCustomStyles($this->getAttr('mp_custom_style'), MPCEShortcode::PREFIX . 'posts_grid')
-			. MPCEShortcode::getMarginClasses($this->getAttr('$margin')) . MPCEShortcode::getBasicClasses(MPCEShortcode::PREFIX . 'posts_grid', true)
+			. MPCEShortcode::handleCustomStyles($this->getAttr('mp_custom_style'), MPCEShortcode::PREFIX . self::TAG)
+			. MPCEShortcode::getMarginClasses($this->getAttr('margin')) . MPCEShortcode::getBasicClasses(MPCEShortcode::PREFIX . self::TAG, true)
 			. $mp_style_classes . '" data-shortcode-attrs="' . $shortcodeAttrStr . '" data-post-id="' . $this->getCurrentPostId() . '">';
 
 		if ($this->isFiltersEnabled()) {

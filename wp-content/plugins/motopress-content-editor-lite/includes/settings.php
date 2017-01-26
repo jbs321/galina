@@ -78,7 +78,6 @@ $motopressCESettings['google_font_classes_prefix'] = 'mpce-font-';
 $motopressCESettings['google_font_classes_dir'] = $motopressCESettings['plugin_upload_dir_path'] . 'google-font-classes' . DIRECTORY_SEPARATOR;
 $motopressCESettings['google_font_classes_dir_url'] = $motopressCESettings['plugin_upload_dir_url'] . "google-font-classes/";
 $motopressCESettings['spellcheck'] = get_option('motopress-ce-spellcheck-enable', '1');
-$motopressCESettings['save_excerpt'] = get_option('motopress-ce-save-excerpt', '1');
 $motopressCESettings['default_fixed_row_width'] = 1170;
 
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https' : 'http';

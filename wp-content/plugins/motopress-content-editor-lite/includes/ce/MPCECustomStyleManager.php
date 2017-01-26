@@ -335,24 +335,19 @@ class MPCECustomStyleManager {
 	}
 
 	/* MetaBox */
-	public static function stylesMetaBoxAdd($postType) {
-		if (!user_can_richedit()) return false;
+	public static function stylesMetaBoxAdd($postType, $post) {
+		global $motopressCESettings, $motopressCELang;
 
-		global $motopressCESettings;
-	    require_once $motopressCESettings['plugin_dir_path'] . 'includes/ce/Access.php';
+		if (!user_can_richedit()) return;
+		if (!MPCEContentManager::isEditorAvailableForPost($post)) return;
+		if (!MPCEContentManager::isPostEnabledForEditor($post->ID)) return;
 
-		$ceAccess = new MPCEAccess();
-	    $postTypes = get_option('motopress-ce-options', array('post', 'page'));
-
-		if (in_array($postType, $postTypes) && post_type_supports($postType, 'editor') && $ceAccess->hasAccess()) {
-			global $motopressCELang;
-			add_meta_box(
-				'motopress-ce-styles',
-				strtr($motopressCELang->CEStylesMetaBoxTitle, array('%BrandName%' => $motopressCESettings['brand_name'])),
-				array('MPCECustomStyleManager', 'stylesMetaBoxPrint'),
-				null, 'normal', 'low'
-			);
-		}
+		add_meta_box(
+			'motopress-ce-styles',
+			strtr($motopressCELang->CEStylesMetaBoxTitle, array('%BrandName%' => $motopressCESettings['brand_name'])),
+			array('MPCECustomStyleManager', 'stylesMetaBoxPrint'),
+			null, 'normal', 'low'
+		);
 	}
 
 	public static function stylesMetaBoxPrint($post) {
@@ -438,5 +433,5 @@ class MPCECustomStyleManager {
 }
 
 add_filter('options_import_whitelist', array('MPCECustomStyleManager', 'optionsImportWhitelistFilter'));
-add_action('add_meta_boxes', array('MPCECustomStyleManager', 'stylesMetaBoxAdd'));
+add_action('add_meta_boxes', array('MPCECustomStyleManager', 'stylesMetaBoxAdd'), 10, 2);
 add_action('save_post', array('MPCECustomStyleManager', 'stylesMetaBoxSave'));

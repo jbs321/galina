@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/Template.php';
  *
  */
 class MPCELibrary {
+	/** @var MPCEGroup[] */
     private $library = array();
     public $globalPredefinedClasses = array();
     public $tinyMCEStyleFormats = array();

@@ -81,7 +81,15 @@ select.motopress-language {
 }
 #motopress-ce-btn {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+#poststuff h2.mpce-tab-wrapper {
+  padding: 20px 0 0;
+}
+#poststuff h2.mpce-tab-wrapper .mpce-tab {
+  font-size: 13px;
+  line-height: 19px;
 }
 @media (max-width: 979px) {
   .motopress-title-page {
@@ -99,8 +107,8 @@ select.motopress-language {
   display: none;
 }
 #motopress-google-font-class-manager #motopress-google-font-class-manager-tools .mp-google-font-add-new-label {
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 600;
   margin-top: 20px;
   margin-bottom: 15px;
 }
@@ -136,18 +144,28 @@ select.motopress-language {
 #motopress-google-font-class-manager .mp-google-font-class-entry .mp-google-font-class-name-container {
   background: #ffffff;
   border: 1px solid #e2e2e2;
-  padding: 7px 5px 5px 12px;
+  padding: 15px;
   margin-bottom: 1px;
 }
 #motopress-google-font-class-manager .mp-google-font-class-entry .mp-google-font-class-name-container .mp-google-font-class-name {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
 }
 #motopress-google-font-class-manager .mp-google-font-class-entry .mp-google-font-class-name-container .mp-remove-google-font-class-entry {
   float: right;
   margin-top: -2px;
 }
+.motopress-ce-hidden {
+  display: none;
+}
 #screen-options-wrap [for^="motopress-ce-styles"],
 .postbox#motopress-ce-styles {
+  display: none !important;
+}
+#motopress-ce-tinymce-wrap {
+  margin-top: 20px;
+}
+.mpce-form-fields,
+.mpce-hidden-fields {
   display: none !important;
 }

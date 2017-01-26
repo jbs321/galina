@@ -240,14 +240,6 @@ function motopressCEExcerptFields() {
         $checked = ' checked="checked"';
     }
     echo '<label><input type="checkbox" name="excerpt_shortcode"' . $checked . '>' . $motopressCELang->CEOptExcerptShortcode . '</label><br>';
-
-    // Save excerpt
-    $saveExcerpt = get_option('motopress-ce-save-excerpt', '1');
-    $checked = '';
-    if ($saveExcerpt) {
-        $checked = ' checked="checked"';
-    }
-    echo '<label><input type="checkbox" name="save_excerpt"' . $checked . '>' . $motopressCELang->CEOptSaveExcerpt . '</label>';
 }
 
 function motopressCEGoogleFontsSecTxt() {}
@@ -287,7 +279,7 @@ function motopressCEGoogleFontsFields() {
             echo '<div class="mp-google-font-class-entry">';
             echo '<div class="mp-google-font-class-name-container">';
             echo '<span class="mp-google-font-class-name">' . $className . '</span>';
-            echo '<button disabled="disabled" class="mp-remove-google-font-class-entry">' . $motopressCELang->CEOptGoogleFontsRemoveClass . '</button>';
+            echo '<button disabled="disabled" class="mp-remove-google-font-class-entry button disabled">' . $motopressCELang->CEOptGoogleFontsRemoveClass . '</button>';
             echo '</div>';
             echo '<div class="mp-google-font-details">';
             echo '<label class="mp-google-fonts-list-container">'.$motopressCELang->CEOptGoogleFontsFamily.'<select class="mp-google-fonts-list" name="motopress_google_font_classes[' . $className . '][family]">';
@@ -329,7 +321,7 @@ function motopressCEGoogleFontsFields() {
         echo '<p class="mp-google-font-add-new-label">'.$motopressCELang->CEOptGoogleFontsAddNewStyle.'</p>';
         echo '<label for="class-name">'.$motopressCELang->CEOptGoogleFontsCustomClassNameLabel.'</label>';
         echo '<input disabled="disabled" id="class-name" class="class-name" type="text" />';
-        echo '<button disabled="disabled" class="mp-create-google-font-class-entry">' . $motopressCELang->CEOptGoogleFontsCreateClass . '</button>';
+        echo '<button disabled="disabled" class="mp-create-google-font-class-entry button disabled">' . $motopressCELang->CEOptGoogleFontsCreateClass . '</button>';
         echo '<p class="description mp-google-font-custom-style-desc">'.$motopressCELang->CEOptGoogleFontsCustomClassNameDesc . ' ' . str_replace("%link%", $motopressCESettings['lite_upgrade_url'], $motopressCELang->CEUpgradeText).'</p>';
         echo '<p class="font-name-info"><span class="wrong-class-name hidden">'.$motopressCELang->CEOptGoogleFontsWrongClassName.'</span><span class="duplicate-class-name hidden">'.$motopressCELang->CEOptGoogleFontsDuplicateClassName.'</span></p>';
         echo '</div>';
@@ -407,14 +399,6 @@ function motopressCESettingsSave() {
 				$excerptShortcode = '0';
 			}
 			update_option('motopress-ce-excerpt-shortcode', $excerptShortcode);
-
-			// Save excerpt
-			if (isset($_POST['save_excerpt']) && $_POST['save_excerpt']) {
-				$saveExcerpt = '1';
-			} else {
-				$saveExcerpt = '0';
-			}
-			update_option('motopress-ce-save-excerpt', $saveExcerpt);
 
 			// Hide options
 			if (is_multisite() && is_main_site() && is_super_admin()) {

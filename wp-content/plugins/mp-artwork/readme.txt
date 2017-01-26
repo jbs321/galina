@@ -2,7 +2,7 @@
 Contributors: MotoPress
 Tags: artwork
 Requires at least: 3.6
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,6 +18,9 @@ Adds Works post type, theme wizard and page templates to Artwork theme.
 Upload, Activate
 
 == Changelog ==
+
+= 1.2.1 =
+* Bug fix: fixed an issue with missing page templates in WordPress 4.7
 
 = 1.2.0 =
 * New widget areas in footer
